@@ -345,7 +345,9 @@ def analyze_feature_importance_shap(model, model_type, data_sample, features, ou
     if not features or not isinstance(features, list) or not all(isinstance(f, str) for f in features):
         logging.warning("   (Warning) Skipping SHAP: Invalid features list.")
         return
-    if not output_dir or not os.path.isdir(output_dir):
+    output_dir = safe_path(output_dir)
+    safe_makedirs(output_dir)
+    if not os.path.isdir(output_dir):
         logging.warning(f"   (Warning) Skipping SHAP: Output directory '{output_dir}' invalid.")
         return
 

@@ -29,21 +29,21 @@ class PipelineManager:
         )
 
     def stage_load(self) -> None:
-        import main as pipeline
+        from src import main as pipeline
         pipeline.run_preprocess(self.config)
 
     def stage_sweep(self) -> None:
-        import main as pipeline
+        from src import main as pipeline
         pipeline.run_sweep(self.config)
 
     def stage_wfv(self) -> None:
         # Threshold optimization is part of walk-forward run
-        import main as pipeline
+        from src import main as pipeline
         pipeline.run_threshold(self.config)
         pipeline.run_backtest(self.config)
 
     def stage_save(self) -> None:
-        import main as pipeline
+        from src import main as pipeline
         pipeline.run_report(self.config)
 
     def stage_qa(self) -> None:

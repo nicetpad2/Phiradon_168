@@ -37,6 +37,10 @@ def parse_args(args=None) -> argparse.Namespace:
     return parser.parse_args(args)
 
 
+def safe_path(path: str, default: str = "output_default") -> str:
+    return path if path else default
+
+
 def run_threshold_optimization(
     output_dir: str = "models",
     trials: int = 10,
@@ -46,6 +50,7 @@ def run_threshold_optimization(
 ) -> pd.DataFrame:
     """รัน Optuna เพื่อตามหาค่า threshold ที่ดีที่สุด"""
 
+    output_dir = safe_path(output_dir)
     if optuna is None:  # pragma: no cover - optuna อาจไม่ติดตั้งในบางสภาพแวดล้อม
         logger.warning("optuna not available; using default threshold=0.5")
         result = pd.DataFrame({"best_threshold": [0.5], "best_value": [0.0]})
@@ -62,6 +67,29 @@ def run_threshold_optimization(
 
     def objective(trial: "optuna.trial.Trial") -> float:
         threshold = trial.suggest_float("threshold", 0.0, 1.0)
+        parquet_path = os.path.join("output_default", "preprocessed_super.parquet")
+        if os.path.exists(parquet_path):
+            try:
+                df = pd.read_parquet(parquet_path)
+                # สมมติว่ามีคอลัมน์ 'target' และ 'pred_proba' (หรือปรับชื่อให้ตรงกับไฟล์จริง)
+                if 'target' in df.columns and 'pred_proba' in df.columns:
+                    preds = (df['pred_proba'] >= threshold).astype(int)
+                    acc = (preds == df['target']).mean()
+                    # ถ้ามี sklearn.metrics.roc_auc_score ให้คำนวณ auc ด้วย
+                    try:
+                        from sklearn.metrics import roc_auc_score
+                        auc = roc_auc_score(df['target'], df['pred_proba'])
+                    except Exception:
+                        auc = 0.0
+                    # เลือก metric ที่ต้องการ optimize (เช่น accuracy หรือ auc)
+                    value = acc  # หรือ value = auc
+                    logger.info(f"[Auto] threshold={threshold:.4f} acc={acc:.4f} auc={auc:.4f}")
+                    return value
+                else:
+                    logger.warning("[Auto] ไม่พบคอลัมน์ 'target' หรือ 'pred_proba' ในไฟล์ preprocessed_super.parquet ใช้ mock objective แทน")
+            except Exception as e:
+                logger.warning(f"[Auto] อ่านไฟล์ preprocessed_super.parquet ไม่สำเร็จ: {e} ใช้ mock objective แทน")
+        # fallback: mock objective
         value = 1.0 - abs(threshold - 0.5)
         return value
 
@@ -85,6 +113,7 @@ def run_threshold_optimization(
     best_value = study.best_value
 
     df = pd.DataFrame({"best_threshold": [best_threshold], "best_value": [best_value]})
+    output_dir = safe_path(output_dir)
     os.makedirs(output_dir, exist_ok=True)
     csv_path = os.path.join(output_dir, "threshold_wfv_optuna_results.csv")
     json_path = os.path.join(output_dir, "threshold_wfv_optuna_results.json")

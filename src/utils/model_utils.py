@@ -67,9 +67,14 @@ def download_feature_list_if_missing(features_path: str, url_env: str) -> bool:
         return False
 
 
+def safe_dirname(path, default="output_default"):
+    d = os.path.dirname(path)
+    return d if d else default
+
+
 def save_model(model: Any, path: str) -> None:
     """Save model object to disk using joblib."""
-    os.makedirs(os.path.dirname(path), exist_ok=True)
+    os.makedirs(safe_dirname(path), exist_ok=True)
     dump(model, path)
 
 

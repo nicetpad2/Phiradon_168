@@ -13,6 +13,16 @@ from src.config import LOG_DIR
 logger = logging.getLogger(__name__)
 
 
+def safe_path(path: str, default: str = "output_default") -> str:
+    return path if path else default
+
+
+def safe_makedirs(path: str):
+    path = safe_path(path)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
 def analyze_feature_distribution(
     df: pd.DataFrame,
     feature_list: List[str],
@@ -34,7 +44,8 @@ def analyze_feature_distribution(
     Optional[Dict[str, Dict[str, float]]]
         ค่าเฉลี่ย ค่ามัธยฐาน ส่วนเบี่ยงเบนมาตรฐาน และข้อมูล histogram ต่อฟีเจอร์
     """
-    os.makedirs(output_dir, exist_ok=True)
+    output_dir = safe_path(output_dir)
+    safe_makedirs(output_dir)
     stats: Dict[str, Dict[str, float]] = {}
     for feature in feature_list:
         if feature not in df.columns:
@@ -155,7 +166,8 @@ def calculate_correlation_matrix(
         return None
     numeric_df = df[feature_list].apply(pd.to_numeric, errors="coerce")
     corr_matrix = numeric_df.corr()
-    os.makedirs(output_dir, exist_ok=True)
+    output_dir = safe_path(output_dir)
+    safe_makedirs(output_dir)
     corr_path = os.path.join(output_dir, "correlation_matrix.csv")
     corr_matrix.to_csv(corr_path)
     return corr_matrix

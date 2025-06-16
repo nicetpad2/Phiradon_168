@@ -7,6 +7,10 @@ from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 
+def safe_dirname(path, default="output_default"):
+    d = os.path.dirname(path)
+    return d if d else default
+
 class StateManager:
     """จัดการสถานะของระบบที่ต้องคงอยู่ข้ามการรัน."""
 
@@ -46,7 +50,7 @@ class StateManager:
     def save_state(self) -> None:
         """บันทึก state ปัจจุบันลงไฟล์ JSON"""
         try:
-            os.makedirs(os.path.dirname(self.state_file_path), exist_ok=True)
+            os.makedirs(safe_dirname(self.state_file_path), exist_ok=True)
             with open(self.state_file_path, 'w') as f:
                 json.dump(self.state, f, indent=4)
             logger.info("System state saved to %s", self.state_file_path)

@@ -26,11 +26,16 @@ class Order:
         return asdict(self)
 
 
+def safe_dirname(path, default="output_default"):
+    d = os.path.dirname(path)
+    return d if d else default
+
+
 def setup_trade_logger(
     log_file: str, max_bytes: int = 1_000_000, backup_count: int = 5
 ) -> logging.Logger:
     """[Patch v5.6.1] Setup rotating logger for trade logs."""
-    os.makedirs(os.path.dirname(log_file), exist_ok=True)
+    os.makedirs(safe_dirname(log_file), exist_ok=True)
     handler = RotatingFileHandler(
         log_file, maxBytes=max_bytes, backupCount=backup_count, encoding="utf-8"
     )
@@ -48,29 +53,29 @@ def setup_trade_logger(
 
 def export_trade_log(trades, output_dir, label, fund_name=None):
     """[Patch v5.3.5] Export trade log ensuring file exists for every fold."""
-    os.makedirs(output_dir, exist_ok=True)
-    path = os.path.join(output_dir, f"trade_log_{label}.csv")
-    qa_base_dir = os.path.join(output_dir, "qa_logs")
+    os.makedirs(output_dir if output_dir else "output_default", exist_ok=True)
+    path = os.path.join(output_dir if output_dir else "output_default", f"trade_log_{label}.csv")
+    qa_base_dir = os.path.join(output_dir if output_dir else "output_default", "qa_logs")
     if fund_name:
         qa_dir = os.path.join(qa_base_dir, fund_name)
     else:
         qa_dir = qa_base_dir
-    os.makedirs(qa_dir, exist_ok=True)
+    os.makedirs(qa_dir if qa_dir else "output_default", exist_ok=True)
     if trades is not None and not trades.empty:
         trades.to_csv(path, index=False)
         logger.info(f"[QA] Output file {path} saved successfully.")
         # [Patch] Save QA summary per trade log export
         with open(
-            os.path.join(qa_dir, f"qa_summary_{label}.log"), "w", encoding="utf-8"
+            os.path.join(qa_dir if qa_dir else "output_default", f"qa_summary_{label}.log"), "w", encoding="utf-8"
         ) as f:
             f.write(f"Trade Log QA: {len(trades)} trades, saved {path}\n")
     else:
         logger.warning(f"[QA-WARNING] No trades in {label}. Creating empty trade log.")
         pd.DataFrame().to_csv(path, index=False)
-        qa_path = os.path.join(qa_dir, f"{label}_trade_qa.log")
+        qa_path = os.path.join(qa_dir if qa_dir else "output_default", f"{label}_trade_qa.log")
         with open(qa_path, "w", encoding="utf-8") as f:
             f.write("[QA] No trade. Output file generated as EMPTY.\n")
-        suggest_threshold_relaxation(qa_dir, label)
+        suggest_threshold_relaxation(qa_dir if qa_dir else "output_default", label)
 
     # [Patch v5.9.2] Ensure BUY/SELL/NORMAL logs exist for QA
     try:
@@ -93,8 +98,8 @@ def export_trade_log(trades, output_dir, label, fund_name=None):
 
 def suggest_threshold_relaxation(qa_dir: str, label: str) -> None:
     """[Patch v5.7.3] Log suggestion to relax ML threshold if no trades found."""
-    os.makedirs(qa_dir, exist_ok=True)
-    suggestion_file = os.path.join(qa_dir, f"relax_threshold_{label}.log")
+    os.makedirs(qa_dir if qa_dir else "output_default", exist_ok=True)
+    suggestion_file = os.path.join(qa_dir if qa_dir else "output_default", f"relax_threshold_{label}.log")
     with open(suggestion_file, "w", encoding="utf-8") as f:
         f.write("No trades generated. Consider relaxing ML_META_FILTER or entry\n")
     logger.info(f"[QA] Threshold relaxation suggestion saved to {suggestion_file}")
@@ -112,7 +117,7 @@ def aggregate_trade_logs(fold_dirs, output_file, label):
             if not df.empty:
                 dfs.append(df)
     combined = pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
-    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    os.makedirs(safe_dirname(output_file), exist_ok=True)
     combined.to_csv(output_file, index=False)
     logger.info(
         f"[QA] Aggregated trade logs saved to {output_file} with {len(combined)} rows."
@@ -161,7 +166,7 @@ def save_trade_snapshot(data: dict, output_file: str) -> None:
     if not isinstance(data, dict):
         raise TypeError("data must be dict")
     df = pd.DataFrame([data])
-    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    os.makedirs(safe_dirname(output_file), exist_ok=True)
     header = not os.path.exists(output_file)
     df.to_csv(output_file, mode="a", index=False, header=header)
 

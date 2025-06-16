@@ -33,8 +33,6 @@ def run_auto_threshold_stage():
 
 
 def run_pipeline_stage(stage: str):
-    from src import main as main_mod
-
     """Run a specific pipeline stage."""
     settings = load_settings()
     fmt = getattr(settings, "feature_format", "parquet")

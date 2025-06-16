@@ -7,9 +7,20 @@ from sklearn.metrics import accuracy_score, roc_auc_score
 from src.config import logger, LOG_DIR
 
 
+def safe_path(path: str, default: str = "output_default") -> str:
+    return path if path else default
+
+
+def safe_makedirs(path: str):
+    path = safe_path(path)
+    os.makedirs(path, exist_ok=True)
+    return path
+
+
 def _write_row(path: str, row: List[str]):
     header = not os.path.exists(path)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
+    dir_path = os.path.dirname(path) or "output_default"
+    os.makedirs(dir_path, exist_ok=True)
     mode = "a" if os.path.exists(path) else "w"
     with open(path, mode, newline="", encoding="utf-8") as fh:
         writer = csv.writer(fh)

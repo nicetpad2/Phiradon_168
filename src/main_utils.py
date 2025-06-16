@@ -7,6 +7,8 @@ from src.csv_validator import validate_and_convert_csv
 
 def ensure_default_output_dir(path):
     """สร้างโฟลเดอร์ผลลัพธ์เริ่มต้นหากยังไม่มี"""
+    if not path:
+        path = "output_default"
     if not os.path.isabs(path):
         project_root = os.getcwd()
         path = os.path.join(project_root, path)
@@ -53,3 +55,18 @@ def load_validated_csv(raw_path, timeframe, dtypes=None):
     if df_loaded.empty:
         logging.warning("(Warning) Loaded DataFrame is empty after CSV load")
     return df_loaded
+
+
+def setup_fonts():
+    """ฟังก์ชันสำรองสำหรับตั้งค่า Font (ไม่ทำอะไร)."""
+    pass
+
+
+def print_gpu_utilization(_=None):
+    """ฟังก์ชันสำรองสำหรับแสดงการใช้ GPU (ไม่ทำอะไร)."""
+    pass
+
+
+def plot_equity_curve(*_args, **_kwargs):
+    """ฟังก์ชันสำรองสำหรับวาดกราฟ Equity Curve (ไม่ทำอะไร)."""
+    pass

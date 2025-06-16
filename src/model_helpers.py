@@ -19,10 +19,11 @@ early_stopping_rounds_config = 200
 
 def ensure_main_features_file(output_dir):
     """Create default features_main.json if it does not exist."""
-    path = os.path.join(output_dir, "features_main.json")
+    out_dir = output_dir if output_dir else "output_default"
+    path = os.path.join(out_dir, "features_main.json")
     if os.path.exists(path):
         return path
-    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs(out_dir, exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         json.dump([], f, ensure_ascii=False, indent=2)
     logging.info("[Patch] Created default features_main.json")
@@ -31,13 +32,14 @@ def ensure_main_features_file(output_dir):
 
 def save_features_main_json(features, output_dir):
     """Save main features list, creating QA log if empty."""
-    os.makedirs(output_dir, exist_ok=True)
-    path = os.path.join(output_dir, "features_main.json")
+    out_dir = output_dir if output_dir else "output_default"
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, "features_main.json")
     if not features:
         logging.warning("[QA] features_main.json is empty. Creating empty features file.")
         with open(path, "w", encoding="utf-8") as f:
             json.dump([], f, ensure_ascii=False, indent=2)
-        qa_log = os.path.join(output_dir, "features_main_qa.log")
+        qa_log = os.path.join(out_dir, "features_main_qa.log")
         with open(qa_log, "w", encoding="utf-8") as f:
             f.write("[QA] features_main.json EMPTY. Please check feature engineering logic.\n")
     else:
@@ -49,8 +51,9 @@ def save_features_main_json(features, output_dir):
 
 def save_features_json(features, model_name, output_dir):
     """Save feature list for a specific model name."""
-    os.makedirs(output_dir, exist_ok=True)
-    path = os.path.join(output_dir, f"features_{model_name}.json")
+    out_dir = output_dir if output_dir else "output_default"
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, f"features_{model_name}.json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(features if features is not None else [], f, ensure_ascii=False, indent=2)
     return path

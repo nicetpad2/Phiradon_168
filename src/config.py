@@ -1,3 +1,11 @@
+# --- Suppress joblib/loky physical core warnings and force safe settings ---
+import os as _os
+_os.environ["JOBLIB_MULTIPROCESSING"] = "0"  # Disable joblib multiprocessing if possible
+_os.environ["LOKY_MAX_CPU_COUNT"] = "1"      # Limit loky to 1 CPU to avoid subprocess errors
+import warnings as _warnings
+_warnings.filterwarnings("ignore", message="Could not find the number of physical cores*", category=UserWarning)
+_warnings.filterwarnings("ignore", message="joblib.externals.loky.backend.context.*", category=UserWarning)
+
 # pragma: no cover
 # === START OF PART 1/12 ===
 

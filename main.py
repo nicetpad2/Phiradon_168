@@ -67,7 +67,7 @@ def parse_args(args=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Pipeline controller")
     parser.add_argument(
         "--mode",
-        choices=["preprocess", "sweep", "threshold", "backtest", "report", "all"],
+        choices=["preprocess", "sweep", "threshold", "backtest", "report", "all", "full_pipeline"],
         default="all",
         help="Stage of the pipeline to run",
     )
@@ -209,7 +209,9 @@ def run_backtest(config: PipelineConfig, pipeline_func=run_backtest_pipeline) ->
     logger.info("[Stage] backtest")
     from config import config as cfg
     try:
-        from ProjectP import load_trade_log
+        # เดิม: from ProjectP import load_trade_log
+        # ย้ายฟังก์ชัน load_trade_log ไปไว้ในไฟล์ utils หรือไฟล์ใหม่ แล้ว import จากตรงนั้นแทน
+        from utils import load_trade_log
     except Exception:  # pragma: no cover - fallback for tests
         def load_trade_log(*_a, **_kw):
             return pd.DataFrame()
@@ -302,6 +304,8 @@ def main(args=None) -> int:
         logger.info("GPU not available, running on CPU")
 
     stage = parsed.mode
+    if stage == "full_pipeline":
+        stage = "all"
     logger.debug("Selected stage: %s", stage)
 
     try:
@@ -349,5 +353,10 @@ def main(args=None) -> int:
     return 0
 
 
+from projectp.cli import main_cli
+
 if __name__ == "__main__":
-    sys.exit(main())
+    # main.py ถูกปิดการใช้งาน entry point เพื่อให้รันผ่าน ProjectP.py เท่านั้น
+    # หากต้องการใช้งาน ให้รัน ProjectP.py
+
+    raise SystemExit("กรุณารันผ่าน ProjectP.py เท่านั้น (main.py ถูกปิดการใช้งาน)")

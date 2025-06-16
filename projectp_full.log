@@ -1,0 +1,2137 @@
+2025-06-16 10:37:01,074 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:37:02,341 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:37:02,341 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:37:02,341 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:37:02,341 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:37:02,341 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:37:02,341 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:37:02,341 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:37:02,343 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:37:02,343 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:37:02,343 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:37:02,343 [INFO]   Optuna Trials: 50
+2025-06-16 10:37:02,343 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:37:02,343 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:37:02,343 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:37:02,344 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:37:02,344 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:37:02,344 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:37:02,344 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:37:02,344 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:37:02,344 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:37:02,454 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:37:02,454 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:37:02,454 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:37:02,454 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:37:02,455 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:37:02,455 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:37:02,455 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:37:02,455 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:37:02,455 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:37:02,456 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:37:02,456 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:37:02,456 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:37:02,459 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:37:02,679 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:37:02,679 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:37:02,709 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:37:02,718 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:37:02,718 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:37:02,993 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:37:02,993 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:37:05,247 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:37:05,263 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:37:05,263 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:37:05,264 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:37:05,264 [INFO] Multi-Fund Mode: True
+2025-06-16 10:37:05,264 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:37:05,265 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:37:05,265 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:37:05,265 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:37:05,265 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:37:05,265 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:37:05,265 [INFO] OMS Enabled: True
+2025-06-16 10:37:05,265 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:37:05,265 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:37:05,265 [INFO] Spike Guard Enabled: True
+2025-06-16 10:37:05,265 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:37:05,265 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:37:05,265 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:37:05,265 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:37:05,265 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:37:05,265 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:37:05,265 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:37:05,265 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:37:05,265 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:37:05,265 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:37:05,265 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:37:05,265 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:37:05,265 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:37:05,288 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:37:05,288 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 10:38:28,969 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:38:30,196 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:38:30,196 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:38:30,196 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:38:30,196 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:38:30,196 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:38:30,196 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:38:30,196 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:38:30,196 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:38:30,196 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:38:30,196 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:38:30,196 [INFO]   Optuna Trials: 50
+2025-06-16 10:38:30,196 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:38:30,196 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:38:30,197 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:38:30,197 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:38:30,198 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:38:30,198 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:38:30,198 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:38:30,198 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:38:30,198 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:38:30,309 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:38:30,309 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:38:30,309 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:38:30,309 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:38:30,309 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:38:30,309 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:38:30,309 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:38:30,310 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:38:30,310 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:38:30,310 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:38:30,310 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:38:30,310 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:38:30,312 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:38:30,507 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:38:30,507 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:38:30,538 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:38:30,547 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:38:30,547 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:38:30,826 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:38:30,826 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:38:33,057 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:38:33,076 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:38:33,076 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:38:33,076 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:38:33,076 [INFO] Multi-Fund Mode: True
+2025-06-16 10:38:33,076 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:38:33,076 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:38:33,076 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:38:33,076 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:38:33,077 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:38:33,077 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:38:33,077 [INFO] OMS Enabled: True
+2025-06-16 10:38:33,077 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:38:33,077 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:38:33,077 [INFO] Spike Guard Enabled: True
+2025-06-16 10:38:33,077 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:38:33,077 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:38:33,077 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:38:33,077 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:38:33,077 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:38:33,077 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:38:33,077 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:38:33,077 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:38:33,077 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:38:33,077 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:38:33,077 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:38:33,077 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:38:33,077 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:38:33,100 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:38:33,100 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 10:39:47,733 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:39:49,026 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:39:49,027 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:39:49,027 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:39:49,027 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:39:49,027 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:39:49,027 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:39:49,027 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:39:49,027 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:39:49,027 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:39:49,027 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:39:49,027 [INFO]   Optuna Trials: 50
+2025-06-16 10:39:49,027 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:39:49,027 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:39:49,027 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:39:49,028 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:39:49,029 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:39:49,029 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:39:49,029 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:39:49,029 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:39:49,029 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:39:49,139 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:39:49,139 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:39:49,139 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:39:49,139 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:39:49,139 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:39:49,140 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:39:49,140 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:39:49,140 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:39:49,140 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:39:49,141 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:39:49,141 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:39:49,141 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:39:49,144 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:39:49,335 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:39:49,335 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:39:49,372 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:39:49,383 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:39:49,383 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:39:49,646 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:39:49,646 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:39:51,801 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:39:51,821 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:39:51,821 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:39:51,821 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:39:51,822 [INFO] Multi-Fund Mode: True
+2025-06-16 10:39:51,822 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:39:51,822 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:39:51,822 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:39:51,822 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:39:51,822 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:39:51,822 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:39:51,822 [INFO] OMS Enabled: True
+2025-06-16 10:39:51,822 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:39:51,822 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:39:51,823 [INFO] Spike Guard Enabled: True
+2025-06-16 10:39:51,823 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:39:51,823 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:39:51,823 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:39:51,823 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:39:51,823 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:39:51,823 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:39:51,823 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:39:51,823 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:39:51,823 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:39:51,823 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:39:51,823 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:39:51,823 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:39:51,823 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:39:51,844 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:39:51,845 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 10:41:12,299 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:41:13,550 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:41:13,550 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:41:13,550 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:41:13,550 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:41:13,550 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:41:13,550 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:41:13,550 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:41:13,550 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:41:13,550 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:41:13,550 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:41:13,550 [INFO]   Optuna Trials: 50
+2025-06-16 10:41:13,550 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:41:13,550 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:41:13,550 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:41:13,551 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:41:13,552 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:41:13,552 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:41:13,552 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:41:13,552 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:41:13,552 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:41:13,658 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:41:13,658 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:41:13,658 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:41:13,658 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:41:13,660 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:41:13,660 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:41:13,660 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:41:13,660 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:41:13,660 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:41:13,660 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:41:13,661 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:41:13,661 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:41:13,663 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:41:13,852 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:41:13,854 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:41:13,878 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:41:13,887 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:41:13,887 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:41:14,158 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:41:14,158 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:41:16,310 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:41:16,336 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:41:16,336 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:41:16,336 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:41:16,337 [INFO] Multi-Fund Mode: True
+2025-06-16 10:41:16,337 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:41:16,337 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:41:16,337 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:41:16,337 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:41:16,337 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:41:16,337 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:41:16,337 [INFO] OMS Enabled: True
+2025-06-16 10:41:16,338 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:41:16,338 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:41:16,338 [INFO] Spike Guard Enabled: True
+2025-06-16 10:41:16,338 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:41:16,338 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:41:16,338 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:41:16,338 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:41:16,338 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:41:16,338 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:41:16,338 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:41:16,338 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:41:16,338 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:41:16,338 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:41:16,338 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:41:16,338 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:41:16,338 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:41:16,361 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:41:16,362 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 10:43:08,655 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:43:09,964 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:43:09,964 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:43:09,964 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:43:09,964 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:43:09,964 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:43:09,964 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:43:09,964 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:43:09,964 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:43:09,964 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:43:09,965 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:43:09,965 [INFO]   Optuna Trials: 50
+2025-06-16 10:43:09,965 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:43:09,965 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:43:09,965 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:43:09,965 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:43:09,966 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:43:09,966 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:43:09,966 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:43:09,966 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:43:09,966 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:43:10,078 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:43:10,078 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:43:10,078 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:43:10,078 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:43:10,078 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:43:10,078 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:43:10,078 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:43:10,079 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:43:10,079 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:43:10,079 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:43:10,080 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:43:10,080 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:43:10,082 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:43:10,285 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:43:10,285 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:43:10,316 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:43:10,328 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:43:10,329 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:43:10,621 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:43:10,621 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:43:12,926 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:43:12,950 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:43:12,950 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:43:12,950 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:43:12,951 [INFO] Multi-Fund Mode: True
+2025-06-16 10:43:12,951 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:43:12,951 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:43:12,951 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:43:12,951 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:43:12,951 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:43:12,951 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:43:12,951 [INFO] OMS Enabled: True
+2025-06-16 10:43:12,951 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:43:12,951 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:43:12,951 [INFO] Spike Guard Enabled: True
+2025-06-16 10:43:12,951 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:43:12,951 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:43:12,951 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:43:12,951 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:43:12,951 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:43:12,951 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:43:12,951 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:43:12,951 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:43:12,951 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:43:12,951 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:43:12,951 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:43:12,951 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:43:12,951 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:43:12,976 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:43:12,976 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 10:43:16,375 [INFO] Part 7: Model Training Function Loaded (v6.9.48 Applied).
+2025-06-16 10:43:16,387 [INFO] Part 8: Backtesting Engine Functions Loaded (v6.9.48 Applied).
+2025-06-16 10:43:16,387 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:43:16,387 [INFO] Part 9: Walk-Forward Orchestration & Analysis Functions Loaded.
+2025-06-16 10:43:16,390 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:43:16,390 [INFO] เริ่มต้นการทำงานของ Pipeline
+2025-06-16 10:43:16,390 [INFO] การตั้งค่า: Settings(cooldown_secs=60, kill_switch_pct=0.2, feature_format='parquet', min_signal_score_entry=0.3, meta_filter_threshold=0.5, meta_filter_relaxed_threshold=0.45, meta_filter_relax_blocks=5)
+2025-06-16 10:43:16,390 [INFO] 
+--- (Auto-Train Check) Ensuring Model Files Exist ---
+2025-06-16 10:43:16,390 [INFO]    (Success) Model files and feature lists already exist.
+2025-06-16 10:43:16,391 [INFO] ขั้นตอนที่ 1: เตรียมข้อมูล
+2025-06-16 10:43:16,545 [INFO] โหลดข้อมูล M1 สำเร็จ: (337362, 8)
+2025-06-16 10:43:16,545 [INFO] [QA] Start M1 Feature Engineering
+2025-06-16 10:43:16,545 [INFO] (Processing) กำลังสร้าง Features M1 (v4.9.0)...
+2025-06-16 10:43:16,545 [INFO] Rows at start: 337362
+2025-06-16 10:43:16,571 [INFO] Rows after drop price NaN: 337362
+2025-06-16 10:43:20,219 [INFO]    (Processing) Tagging price structure patterns...
+2025-06-16 10:43:20,316 [INFO]       Pattern Label Distribution:
+Pattern_Label
+Breakout       0.519
+Reversal       0.176
+Choppy         0.145
+InsideBar      0.092
+Normal         0.066
+StrongTrend    0.002
+2025-06-16 10:43:22,997 [INFO]       Creating 'session' column...
+2025-06-16 10:43:23,131 [INFO]          Session distribution:
+session
+Asia    1.0
+2025-06-16 10:43:23,132 [INFO] (Success) สร้าง Features M1 (v4.9.0) เสร็จสิ้น.
+2025-06-16 10:43:23,400 [INFO] NaN per column after engineering:
+Date                   0
+Timestamp              0
+Open                   0
+High                   0
+Low                    0
+Close                  0
+Volume                 0
+Time                   0
+Candle_Body            0
+Candle_Range           0
+Gain                   0
+Candle_Ratio           0
+Upper_Wick             0
+Lower_Wick             0
+Wick_Length            0
+Wick_Ratio             0
+Gain_Z                 0
+MACD_line              0
+MACD_signal            0
+MACD_hist              0
+MACD_hist_smooth       0
+ATR_14                 0
+ATR_14_Shifted         0
+ATR_14_Rolling_Avg     0
+Candle_Speed           0
+RSI                    0
+Volatility_Index       0
+ADX                    0
+Pattern_Label          0
+cluster                0
+spike_score            0
+OF_Imbalance           0
+Momentum_Divergence    0
+Relative_Volume        0
+session                0
+model_tag              0
+2025-06-16 10:43:23,401 [INFO] [QA] M1 Feature Engineering Completed
+2025-06-16 10:43:23,438 [INFO] สร้าง features สำเร็จ: (337362, 36)
+2025-06-16 10:43:23,439 [INFO] ขั้นตอนที่ 2: ฝึกโมเดล
+2025-06-16 10:43:23,439 [INFO] ฝึกโมเดลจริง (โปรดเติม trade log และ args ที่เหมาะสม)
+2025-06-16 10:43:23,439 [INFO] ขั้นตอนที่ 3: รัน Pipeline อัตโนมัติ
+2025-06-16 10:43:23,440 [INFO] [Patch v6.2.4] Starting Auto Threshold Optimization
+2025-06-16 10:43:23,529 [INFO] [Auto] threshold=0.3745 acc=0.0147 auc=0.5000
+2025-06-16 10:43:23,532 [INFO] Trial 0: threshold=0.3745 value=0.0147
+2025-06-16 10:43:23,618 [INFO] [Auto] threshold=0.9507 acc=0.9853 auc=0.5000
+2025-06-16 10:43:23,621 [INFO] Trial 1: threshold=0.9507 value=0.9853
+2025-06-16 10:43:23,705 [INFO] [Auto] threshold=0.7320 acc=0.9853 auc=0.5000
+2025-06-16 10:43:23,708 [INFO] Trial 2: threshold=0.7320 value=0.9853
+2025-06-16 10:43:23,791 [INFO] [Auto] threshold=0.5987 acc=0.9853 auc=0.5000
+2025-06-16 10:43:23,795 [INFO] Trial 3: threshold=0.5987 value=0.9853
+2025-06-16 10:43:23,880 [INFO] [Auto] threshold=0.1560 acc=0.0147 auc=0.5000
+2025-06-16 10:43:23,885 [INFO] Trial 4: threshold=0.1560 value=0.0147
+2025-06-16 10:43:23,970 [INFO] [Auto] threshold=0.1560 acc=0.0147 auc=0.5000
+2025-06-16 10:43:23,974 [INFO] Trial 5: threshold=0.1560 value=0.0147
+2025-06-16 10:43:24,065 [INFO] [Auto] threshold=0.0581 acc=0.0147 auc=0.5000
+2025-06-16 10:43:24,068 [INFO] Trial 6: threshold=0.0581 value=0.0147
+2025-06-16 10:43:24,151 [INFO] [Auto] threshold=0.8662 acc=0.9853 auc=0.5000
+2025-06-16 10:43:24,156 [INFO] Trial 7: threshold=0.8662 value=0.9853
+2025-06-16 10:43:24,239 [INFO] [Auto] threshold=0.6011 acc=0.9853 auc=0.5000
+2025-06-16 10:43:24,243 [INFO] Trial 8: threshold=0.6011 value=0.9853
+2025-06-16 10:43:24,328 [INFO] [Auto] threshold=0.7081 acc=0.9853 auc=0.5000
+2025-06-16 10:43:24,332 [INFO] Trial 9: threshold=0.7081 value=0.9853
+2025-06-16 10:43:24,420 [INFO] [Auto] threshold=0.0206 acc=0.0147 auc=0.5000
+2025-06-16 10:43:24,425 [INFO] Trial 10: threshold=0.0206 value=0.0147
+2025-06-16 10:43:24,516 [INFO] [Auto] threshold=0.9699 acc=0.9853 auc=0.5000
+2025-06-16 10:43:24,519 [INFO] Trial 11: threshold=0.9699 value=0.9853
+2025-06-16 10:43:24,605 [INFO] [Auto] threshold=0.8324 acc=0.9853 auc=0.5000
+2025-06-16 10:43:24,608 [INFO] Trial 12: threshold=0.8324 value=0.9853
+2025-06-16 10:43:24,695 [INFO] [Auto] threshold=0.2123 acc=0.0147 auc=0.5000
+2025-06-16 10:43:24,698 [INFO] Trial 13: threshold=0.2123 value=0.0147
+2025-06-16 10:43:24,782 [INFO] [Auto] threshold=0.1818 acc=0.0147 auc=0.5000
+2025-06-16 10:43:24,786 [INFO] Trial 14: threshold=0.1818 value=0.0147
+2025-06-16 10:43:24,870 [INFO] [Auto] threshold=0.1834 acc=0.0147 auc=0.5000
+2025-06-16 10:43:24,875 [INFO] Trial 15: threshold=0.1834 value=0.0147
+2025-06-16 10:43:24,959 [INFO] [Auto] threshold=0.3042 acc=0.0147 auc=0.5000
+2025-06-16 10:43:24,964 [INFO] Trial 16: threshold=0.3042 value=0.0147
+2025-06-16 10:43:25,045 [INFO] [Auto] threshold=0.5248 acc=0.9853 auc=0.5000
+2025-06-16 10:43:25,049 [INFO] Trial 17: threshold=0.5248 value=0.9853
+2025-06-16 10:43:25,137 [INFO] [Auto] threshold=0.4319 acc=0.0147 auc=0.5000
+2025-06-16 10:43:25,141 [INFO] Trial 18: threshold=0.4319 value=0.0147
+2025-06-16 10:43:25,227 [INFO] [Auto] threshold=0.2912 acc=0.0147 auc=0.5000
+2025-06-16 10:43:25,231 [INFO] Trial 19: threshold=0.2912 value=0.0147
+2025-06-16 10:43:25,316 [INFO] [Auto] threshold=0.6119 acc=0.9853 auc=0.5000
+2025-06-16 10:43:25,319 [INFO] Trial 20: threshold=0.6119 value=0.9853
+2025-06-16 10:43:25,402 [INFO] [Auto] threshold=0.1395 acc=0.0147 auc=0.5000
+2025-06-16 10:43:25,407 [INFO] Trial 21: threshold=0.1395 value=0.0147
+2025-06-16 10:43:25,492 [INFO] [Auto] threshold=0.2921 acc=0.0147 auc=0.5000
+2025-06-16 10:43:25,497 [INFO] Trial 22: threshold=0.2921 value=0.0147
+2025-06-16 10:43:25,583 [INFO] [Auto] threshold=0.3664 acc=0.0147 auc=0.5000
+2025-06-16 10:43:25,588 [INFO] Trial 23: threshold=0.3664 value=0.0147
+2025-06-16 10:43:25,675 [INFO] [Auto] threshold=0.4561 acc=0.0147 auc=0.5000
+2025-06-16 10:43:25,678 [INFO] Trial 24: threshold=0.4561 value=0.0147
+2025-06-16 10:43:25,764 [INFO] [Auto] threshold=0.7852 acc=0.9853 auc=0.5000
+2025-06-16 10:43:25,767 [INFO] Trial 25: threshold=0.7852 value=0.9853
+2025-06-16 10:43:25,857 [INFO] [Auto] threshold=0.1997 acc=0.0147 auc=0.5000
+2025-06-16 10:43:25,860 [INFO] Trial 26: threshold=0.1997 value=0.0147
+2025-06-16 10:43:25,944 [INFO] [Auto] threshold=0.5142 acc=0.9853 auc=0.5000
+2025-06-16 10:43:25,948 [INFO] Trial 27: threshold=0.5142 value=0.9853
+2025-06-16 10:43:26,033 [INFO] [Auto] threshold=0.5924 acc=0.9853 auc=0.5000
+2025-06-16 10:43:26,035 [INFO] Trial 28: threshold=0.5924 value=0.9853
+2025-06-16 10:43:26,120 [INFO] [Auto] threshold=0.0465 acc=0.0147 auc=0.5000
+2025-06-16 10:43:26,124 [INFO] Trial 29: threshold=0.0465 value=0.0147
+2025-06-16 10:43:26,207 [INFO] [Auto] threshold=0.6075 acc=0.9853 auc=0.5000
+2025-06-16 10:43:26,211 [INFO] Trial 30: threshold=0.6075 value=0.9853
+2025-06-16 10:43:26,295 [INFO] [Auto] threshold=0.1705 acc=0.0147 auc=0.5000
+2025-06-16 10:43:26,299 [INFO] Trial 31: threshold=0.1705 value=0.0147
+2025-06-16 10:43:26,381 [INFO] [Auto] threshold=0.0651 acc=0.0147 auc=0.5000
+2025-06-16 10:43:26,385 [INFO] Trial 32: threshold=0.0651 value=0.0147
+2025-06-16 10:43:26,470 [INFO] [Auto] threshold=0.9489 acc=0.9853 auc=0.5000
+2025-06-16 10:43:26,474 [INFO] Trial 33: threshold=0.9489 value=0.9853
+2025-06-16 10:43:26,558 [INFO] [Auto] threshold=0.9656 acc=0.9853 auc=0.5000
+2025-06-16 10:43:26,562 [INFO] Trial 34: threshold=0.9656 value=0.9853
+2025-06-16 10:43:26,647 [INFO] [Auto] threshold=0.8084 acc=0.9853 auc=0.5000
+2025-06-16 10:43:26,651 [INFO] Trial 35: threshold=0.8084 value=0.9853
+2025-06-16 10:43:26,734 [INFO] [Auto] threshold=0.3046 acc=0.0147 auc=0.5000
+2025-06-16 10:43:26,738 [INFO] Trial 36: threshold=0.3046 value=0.0147
+2025-06-16 10:43:26,821 [INFO] [Auto] threshold=0.0977 acc=0.0147 auc=0.5000
+2025-06-16 10:43:26,825 [INFO] Trial 37: threshold=0.0977 value=0.0147
+2025-06-16 10:43:26,906 [INFO] [Auto] threshold=0.6842 acc=0.9853 auc=0.5000
+2025-06-16 10:43:26,911 [INFO] Trial 38: threshold=0.6842 value=0.9853
+2025-06-16 10:43:26,992 [INFO] [Auto] threshold=0.4402 acc=0.0147 auc=0.5000
+2025-06-16 10:43:26,996 [INFO] Trial 39: threshold=0.4402 value=0.0147
+2025-06-16 10:43:27,081 [INFO] [Auto] threshold=0.1220 acc=0.0147 auc=0.5000
+2025-06-16 10:43:27,085 [INFO] Trial 40: threshold=0.1220 value=0.0147
+2025-06-16 10:43:27,172 [INFO] [Auto] threshold=0.4952 acc=0.0147 auc=0.5000
+2025-06-16 10:43:27,176 [INFO] Trial 41: threshold=0.4952 value=0.0147
+2025-06-16 10:43:27,262 [INFO] [Auto] threshold=0.0344 acc=0.0147 auc=0.5000
+2025-06-16 10:43:27,266 [INFO] Trial 42: threshold=0.0344 value=0.0147
+2025-06-16 10:43:27,350 [INFO] [Auto] threshold=0.9093 acc=0.9853 auc=0.5000
+2025-06-16 10:43:27,354 [INFO] Trial 43: threshold=0.9093 value=0.9853
+2025-06-16 10:43:27,438 [INFO] [Auto] threshold=0.2588 acc=0.0147 auc=0.5000
+2025-06-16 10:43:27,442 [INFO] Trial 44: threshold=0.2588 value=0.0147
+2025-06-16 10:43:27,528 [INFO] [Auto] threshold=0.6625 acc=0.9853 auc=0.5000
+2025-06-16 10:43:27,532 [INFO] Trial 45: threshold=0.6625 value=0.9853
+2025-06-16 10:43:27,617 [INFO] [Auto] threshold=0.3117 acc=0.0147 auc=0.5000
+2025-06-16 10:43:27,620 [INFO] Trial 46: threshold=0.3117 value=0.0147
+2025-06-16 10:43:27,705 [INFO] [Auto] threshold=0.5201 acc=0.9853 auc=0.5000
+2025-06-16 10:43:27,708 [INFO] Trial 47: threshold=0.5201 value=0.9853
+2025-06-16 10:43:27,797 [INFO] [Auto] threshold=0.5467 acc=0.9853 auc=0.5000
+2025-06-16 10:43:27,801 [INFO] Trial 48: threshold=0.5467 value=0.9853
+2025-06-16 10:43:27,885 [INFO] [Auto] threshold=0.1849 acc=0.0147 auc=0.5000
+2025-06-16 10:43:27,889 [INFO] Trial 49: threshold=0.1849 value=0.0147
+2025-06-16 10:43:27,892 [INFO] [Patch v6.2.4] Auto Threshold Optimization Completed
+2025-06-16 10:43:27,892 [INFO] Pipeline อัตโนมัติ (จริง) สำเร็จ
+2025-06-16 10:43:27,892 [INFO] Pipeline เสร็จสมบูรณ์!
+2025-06-16 10:43:27,892 [INFO] เสร็จสิ้นการทำงานของ Pipeline
+2025-06-16 10:43:27,892 [INFO] ใช้เวลาทั้งหมด: 11.502049446105957 วินาที
+2025-06-16 10:48:22,485 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:48:23,759 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:48:23,759 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:48:23,759 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:48:23,760 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:48:23,760 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:48:23,760 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:48:23,760 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:48:23,760 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:48:23,760 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:48:23,760 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:48:23,760 [INFO]   Optuna Trials: 50
+2025-06-16 10:48:23,760 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:48:23,760 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:48:23,760 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:48:23,760 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:48:23,761 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:48:23,761 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:48:23,761 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:48:23,761 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:48:23,761 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:48:23,878 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:48:23,878 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:48:23,878 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:48:23,878 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:48:23,878 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:48:23,878 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:48:23,878 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:48:23,879 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:48:23,880 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:48:23,880 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:48:23,880 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:48:23,880 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:48:23,882 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:48:24,106 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:48:24,106 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:48:24,137 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:48:24,149 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:48:24,149 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:48:24,458 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:48:24,458 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:48:26,945 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:48:26,964 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:48:26,964 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:48:26,964 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:48:26,965 [INFO] Multi-Fund Mode: True
+2025-06-16 10:48:26,965 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:48:26,965 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:48:26,965 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:48:26,965 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:48:26,965 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:48:26,965 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:48:26,965 [INFO] OMS Enabled: True
+2025-06-16 10:48:26,965 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:48:26,965 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:48:26,965 [INFO] Spike Guard Enabled: True
+2025-06-16 10:48:26,965 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:48:26,965 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:48:26,965 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:48:26,965 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:48:26,965 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:48:26,966 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:48:26,966 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:48:26,966 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:48:26,966 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:48:26,966 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:48:26,966 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:48:26,966 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:48:26,966 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:48:26,992 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:48:26,992 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 10:54:54,934 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:54:56,077 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:54:56,077 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:54:56,077 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:54:56,078 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:54:56,078 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:54:56,078 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:54:56,078 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:54:56,078 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:54:56,078 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:54:56,078 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:54:56,078 [INFO]   Optuna Trials: 50
+2025-06-16 10:54:56,078 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:54:56,078 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:54:56,078 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:54:56,079 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:54:56,079 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:54:56,079 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:54:56,079 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:54:56,079 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:54:56,079 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:54:56,187 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:54:56,187 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:54:56,187 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:54:56,187 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:54:56,187 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:54:56,187 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:54:56,188 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:54:56,188 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:54:56,188 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:54:56,188 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:54:56,189 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:54:56,189 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:54:56,191 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:54:56,377 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:54:56,377 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:54:56,413 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:54:56,422 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:54:56,422 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:54:56,692 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:54:56,692 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:54:58,807 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:54:58,838 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:54:58,838 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:54:58,838 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:54:58,839 [INFO] Multi-Fund Mode: True
+2025-06-16 10:54:58,839 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:54:58,839 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:54:58,839 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:54:58,839 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:54:58,839 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:54:58,839 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:54:58,839 [INFO] OMS Enabled: True
+2025-06-16 10:54:58,839 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:54:58,839 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:54:58,839 [INFO] Spike Guard Enabled: True
+2025-06-16 10:54:58,840 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:54:58,840 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:54:58,840 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:54:58,840 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:54:58,840 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:54:58,840 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:54:58,840 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:54:58,840 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:54:58,840 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:54:58,840 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:54:58,840 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:54:58,840 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:54:58,840 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:54:58,862 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:54:58,862 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 10:58:08,053 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 10:58:09,305 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:58:09,305 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:58:09,305 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:58:09,305 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 10:58:09,305 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 10:58:09,305 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 10:58:09,305 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 10:58:09,305 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 10:58:09,305 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 10:58:09,305 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 10:58:09,305 [INFO]   Optuna Trials: 50
+2025-06-16 10:58:09,305 [INFO]   Optuna CV Splits: 5
+2025-06-16 10:58:09,305 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 10:58:09,305 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 10:58:09,306 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 10:58:09,306 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:58:09,307 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:58:09,307 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 10:58:09,307 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:58:09,307 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 10:58:09,422 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 10:58:09,422 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 10:58:09,422 [INFO] [Settings] feature_format = parquet
+2025-06-16 10:58:09,422 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 10:58:09,422 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 10:58:09,422 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 10:58:09,422 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 10:58:09,422 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 10:58:09,422 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 10:58:09,424 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 10:58:09,424 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 10:58:09,424 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 10:58:09,426 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 10:58:09,626 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 10:58:09,626 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 10:58:09,652 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 10:58:09,663 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 10:58:09,663 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 10:58:09,947 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 10:58:09,947 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 10:58:12,221 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 10:58:12,253 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 10:58:12,253 [INFO] (Info) GPU acceleration status: True
+2025-06-16 10:58:12,253 [INFO] Loading Global Configuration Settings...
+2025-06-16 10:58:12,254 [INFO] Multi-Fund Mode: True
+2025-06-16 10:58:12,254 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 10:58:12,254 [INFO] IB Commission per Lot: $7.00
+2025-06-16 10:58:12,254 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 10:58:12,254 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 10:58:12,254 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 10:58:12,254 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 10:58:12,254 [INFO] OMS Enabled: True
+2025-06-16 10:58:12,254 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 10:58:12,254 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 10:58:12,254 [INFO] Spike Guard Enabled: True
+2025-06-16 10:58:12,255 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 10:58:12,255 [INFO] Soft Cooldown Enabled: True
+2025-06-16 10:58:12,255 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 10:58:12,255 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 10:58:12,255 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 10:58:12,255 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 10:58:12,255 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 10:58:12,255 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 10:58:12,255 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 10:58:12,255 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 10:58:12,255 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 10:58:12,255 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 10:58:12,255 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 10:58:12,278 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 10:58:12,278 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:05:24,632 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:05:25,929 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:05:25,929 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:05:25,929 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:05:25,929 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:05:25,929 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:05:25,929 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:05:25,929 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:05:25,929 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:05:25,929 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:05:25,929 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:05:25,929 [INFO]   Optuna Trials: 50
+2025-06-16 11:05:25,929 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:05:25,929 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:05:25,929 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:05:25,930 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:05:25,931 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:05:25,931 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:05:25,931 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:05:25,931 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:05:25,931 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:05:26,052 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:05:26,052 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:05:26,052 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:05:26,052 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:05:26,052 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:05:26,052 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:05:26,052 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:05:26,053 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:05:26,053 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:05:26,053 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:05:26,053 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:05:26,054 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:05:26,056 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:05:26,267 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:05:26,267 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:05:26,289 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:05:26,299 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:05:26,299 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:05:26,592 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:05:26,592 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:05:29,079 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:05:29,106 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:05:29,106 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:05:29,106 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:05:29,106 [INFO] Multi-Fund Mode: True
+2025-06-16 11:05:29,107 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:05:29,107 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:05:29,107 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:05:29,107 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:05:29,107 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:05:29,107 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:05:29,107 [INFO] OMS Enabled: True
+2025-06-16 11:05:29,107 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:05:29,107 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:05:29,107 [INFO] Spike Guard Enabled: True
+2025-06-16 11:05:29,107 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:05:29,107 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:05:29,107 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:05:29,107 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:05:29,107 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:05:29,107 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:05:29,107 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:05:29,107 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:05:29,107 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:05:29,107 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:05:29,107 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:05:29,107 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:05:29,107 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:05:29,134 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:05:29,134 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:08:41,764 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:08:43,199 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:08:43,199 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:08:43,199 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:08:43,199 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:08:43,199 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:08:43,199 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:08:43,199 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:08:43,199 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:08:43,199 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:08:43,199 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:08:43,199 [INFO]   Optuna Trials: 50
+2025-06-16 11:08:43,199 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:08:43,199 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:08:43,199 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:08:43,200 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:08:43,201 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:08:43,201 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:08:43,201 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:08:43,201 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:08:43,201 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:08:43,410 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:08:43,410 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:08:43,410 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:08:43,410 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:08:43,410 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:08:43,410 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:08:43,410 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:08:43,411 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:08:43,412 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:08:43,412 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:08:43,412 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:08:43,412 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:08:43,414 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:08:43,622 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:08:43,622 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:08:43,655 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:08:43,665 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:08:43,665 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:08:43,941 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:08:43,941 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:08:46,158 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:08:46,185 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:08:46,185 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:08:46,185 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:08:46,187 [INFO] Multi-Fund Mode: True
+2025-06-16 11:08:46,187 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:08:46,187 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:08:46,187 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:08:46,187 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:08:46,187 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:08:46,187 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:08:46,187 [INFO] OMS Enabled: True
+2025-06-16 11:08:46,187 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:08:46,188 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:08:46,188 [INFO] Spike Guard Enabled: True
+2025-06-16 11:08:46,188 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:08:46,188 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:08:46,188 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:08:46,188 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:08:46,188 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:08:46,188 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:08:46,188 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:08:46,188 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:08:46,188 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:08:46,188 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:08:46,188 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:08:46,188 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:08:46,188 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:08:46,209 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:08:46,209 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:09:42,841 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:09:44,089 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:09:44,090 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:09:44,090 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:09:44,090 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:09:44,090 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:09:44,090 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:09:44,090 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:09:44,090 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:09:44,090 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:09:44,090 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:09:44,090 [INFO]   Optuna Trials: 50
+2025-06-16 11:09:44,090 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:09:44,090 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:09:44,090 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:09:44,091 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:09:44,092 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:09:44,092 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:09:44,092 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:09:44,092 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:09:44,092 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:09:44,207 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:09:44,207 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:09:44,207 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:09:44,207 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:09:44,207 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:09:44,207 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:09:44,207 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:09:44,208 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:09:44,208 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:09:44,208 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:09:44,208 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:09:44,208 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:09:44,211 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:09:44,404 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:09:44,404 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:09:44,434 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:09:44,444 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:09:44,445 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:09:44,764 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:09:44,764 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:09:47,228 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:09:47,248 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:09:47,248 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:09:47,249 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:09:47,249 [INFO] Multi-Fund Mode: True
+2025-06-16 11:09:47,249 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:09:47,249 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:09:47,250 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:09:47,250 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:09:47,250 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:09:47,250 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:09:47,250 [INFO] OMS Enabled: True
+2025-06-16 11:09:47,250 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:09:47,250 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:09:47,250 [INFO] Spike Guard Enabled: True
+2025-06-16 11:09:47,250 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:09:47,250 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:09:47,250 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:09:47,250 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:09:47,250 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:09:47,250 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:09:47,250 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:09:47,250 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:09:47,251 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:09:47,251 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:09:47,251 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:09:47,251 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:09:47,251 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:09:47,283 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:09:47,283 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:11:22,565 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:11:23,796 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:11:23,796 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:11:23,796 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:11:23,797 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:11:23,797 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:11:23,797 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:11:23,797 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:11:23,797 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:11:23,797 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:11:23,797 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:11:23,797 [INFO]   Optuna Trials: 50
+2025-06-16 11:11:23,797 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:11:23,797 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:11:23,797 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:11:23,798 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:11:23,798 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:11:23,798 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:11:23,798 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:11:23,798 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:11:23,798 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:11:23,915 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:11:23,915 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:11:23,915 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:11:23,915 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:11:23,915 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:11:23,915 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:11:23,915 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:11:23,915 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:11:23,916 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:11:23,916 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:11:23,916 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:11:23,916 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:11:23,918 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:11:24,111 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:11:24,111 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:11:24,138 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:11:24,148 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:11:24,148 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:11:24,418 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:11:24,418 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:11:26,560 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:11:26,576 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:11:26,576 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:11:26,576 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:11:26,576 [INFO] Multi-Fund Mode: True
+2025-06-16 11:11:26,576 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:11:26,576 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:11:26,576 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:11:26,576 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:11:26,576 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:11:26,576 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:11:26,576 [INFO] OMS Enabled: True
+2025-06-16 11:11:26,576 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:11:26,576 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:11:26,578 [INFO] Spike Guard Enabled: True
+2025-06-16 11:11:26,578 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:11:26,578 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:11:26,578 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:11:26,578 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:11:26,578 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:11:26,578 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:11:26,578 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:11:26,578 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:11:26,578 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:11:26,578 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:11:26,578 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:11:26,578 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:11:26,578 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:11:26,602 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:11:26,602 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:37:58,591 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:37:59,891 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:37:59,891 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:37:59,891 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:37:59,891 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:37:59,891 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:37:59,891 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:37:59,891 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:37:59,891 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:37:59,891 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:37:59,891 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:37:59,891 [INFO]   Optuna Trials: 50
+2025-06-16 11:37:59,891 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:37:59,891 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:37:59,891 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:37:59,892 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:37:59,893 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:37:59,893 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:37:59,893 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:37:59,893 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:37:59,893 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:38:00,018 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:38:00,018 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:38:00,018 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:38:00,018 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:38:00,018 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:38:00,018 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:38:00,018 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:38:00,018 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:38:00,019 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:38:00,019 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:38:00,019 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:38:00,019 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:38:00,021 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:38:00,223 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:38:00,224 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:38:00,245 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:38:00,254 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:38:00,255 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:38:00,545 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:38:00,545 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:38:02,738 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:38:02,759 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:38:02,759 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:38:02,759 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:38:02,760 [INFO] Multi-Fund Mode: True
+2025-06-16 11:38:02,760 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:38:02,760 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:38:02,760 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:38:02,760 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:38:02,760 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:38:02,760 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:38:02,760 [INFO] OMS Enabled: True
+2025-06-16 11:38:02,760 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:38:02,760 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:38:02,760 [INFO] Spike Guard Enabled: True
+2025-06-16 11:38:02,760 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:38:02,760 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:38:02,760 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:38:02,760 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:38:02,760 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:38:02,760 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:38:02,760 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:38:02,761 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:38:02,761 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:38:02,761 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:38:02,761 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:38:02,761 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:38:02,761 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:38:02,784 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:38:02,784 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:44:05,299 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:44:06,712 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:44:06,712 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:44:06,712 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:44:06,713 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:44:06,713 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:44:06,713 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:44:06,713 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:44:06,713 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:44:06,713 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:44:06,713 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:44:06,713 [INFO]   Optuna Trials: 50
+2025-06-16 11:44:06,713 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:44:06,713 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:44:06,713 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:44:06,714 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:44:06,715 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:44:06,715 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:44:06,715 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:44:06,715 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:44:06,715 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:44:06,854 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:44:06,854 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:44:06,854 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:44:06,854 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:44:06,854 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:44:06,854 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:44:06,854 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:44:06,855 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:44:06,855 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:44:06,855 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:44:06,855 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:44:06,855 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:44:06,858 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:44:07,068 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:44:07,068 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:44:07,095 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:44:07,104 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:44:07,105 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:44:07,399 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:44:07,399 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:44:09,698 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:44:09,725 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:44:09,725 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:44:09,725 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:44:09,726 [INFO] Multi-Fund Mode: True
+2025-06-16 11:44:09,726 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:44:09,726 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:44:09,726 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:44:09,726 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:44:09,726 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:44:09,726 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:44:09,726 [INFO] OMS Enabled: True
+2025-06-16 11:44:09,726 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:44:09,726 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:44:09,726 [INFO] Spike Guard Enabled: True
+2025-06-16 11:44:09,726 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:44:09,726 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:44:09,726 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:44:09,726 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:44:09,726 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:44:09,726 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:44:09,726 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:44:09,726 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:44:09,726 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:44:09,727 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:44:09,727 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:44:09,727 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:44:09,727 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:44:09,751 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:44:09,751 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:49:16,867 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:49:18,179 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:49:18,179 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:49:18,179 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:49:18,179 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:49:18,179 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:49:18,179 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:49:18,179 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:49:18,179 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:49:18,179 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:49:18,180 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:49:18,180 [INFO]   Optuna Trials: 50
+2025-06-16 11:49:18,180 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:49:18,180 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:49:18,180 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:49:18,180 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:49:18,182 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:49:18,182 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:49:18,182 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:49:18,182 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:49:18,182 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:49:18,295 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:49:18,296 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:49:18,296 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:49:18,296 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:49:18,296 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:49:18,296 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:49:18,296 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:49:18,296 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:49:18,296 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:49:18,297 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:49:18,297 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:49:18,297 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:49:18,299 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:49:18,491 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:49:18,491 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:49:18,512 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:49:18,521 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:49:18,522 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:49:18,795 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:49:18,796 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:49:21,161 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:49:21,179 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:49:21,179 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:49:21,179 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:49:21,181 [INFO] Multi-Fund Mode: True
+2025-06-16 11:49:21,181 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:49:21,181 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:49:21,181 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:49:21,181 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:49:21,181 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:49:21,181 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:49:21,181 [INFO] OMS Enabled: True
+2025-06-16 11:49:21,181 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:49:21,181 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:49:21,181 [INFO] Spike Guard Enabled: True
+2025-06-16 11:49:21,181 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:49:21,181 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:49:21,182 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:49:21,182 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:49:21,182 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:49:21,182 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:49:21,182 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:49:21,182 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:49:21,182 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:49:21,182 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:49:21,182 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:49:21,182 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:49:21,182 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:49:21,207 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:49:21,207 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:50:20,903 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:50:22,214 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:50:22,214 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:50:22,214 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:50:22,214 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:50:22,214 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:50:22,214 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:50:22,214 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:50:22,214 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:50:22,214 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:50:22,214 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:50:22,214 [INFO]   Optuna Trials: 50
+2025-06-16 11:50:22,214 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:50:22,214 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:50:22,214 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:50:22,215 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:50:22,216 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:50:22,216 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:50:22,216 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:50:22,216 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:50:22,216 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:50:22,330 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:50:22,330 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:50:22,330 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:50:22,330 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:50:22,330 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:50:22,330 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:50:22,330 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:50:22,331 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:50:22,331 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:50:22,331 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:50:22,331 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:50:22,331 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:50:22,334 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:50:22,530 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:50:22,530 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:50:22,558 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:50:22,568 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:50:22,568 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:50:22,844 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:50:22,844 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:53:42,908 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:55:21,851 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 11:55:23,155 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:55:23,155 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:55:23,155 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:55:23,155 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 11:55:23,156 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 11:55:23,156 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 11:55:23,156 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 11:55:23,156 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 11:55:23,156 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 11:55:23,156 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 11:55:23,156 [INFO]   Optuna Trials: 50
+2025-06-16 11:55:23,156 [INFO]   Optuna CV Splits: 5
+2025-06-16 11:55:23,156 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 11:55:23,156 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 11:55:23,157 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 11:55:23,157 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:55:23,157 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:55:23,157 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 11:55:23,157 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:55:23,157 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 11:55:23,276 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 11:55:23,276 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 11:55:23,276 [INFO] [Settings] feature_format = parquet
+2025-06-16 11:55:23,276 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 11:55:23,276 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 11:55:23,276 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 11:55:23,276 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 11:55:23,277 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 11:55:23,277 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 11:55:23,277 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 11:55:23,277 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 11:55:23,277 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 11:55:23,280 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 11:55:23,475 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 11:55:23,476 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 11:55:23,501 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 11:55:23,510 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 11:55:23,510 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 11:55:23,790 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 11:55:23,790 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 11:55:26,053 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 11:55:26,082 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 11:55:26,082 [INFO] (Info) GPU acceleration status: True
+2025-06-16 11:55:26,083 [INFO] Loading Global Configuration Settings...
+2025-06-16 11:55:26,083 [INFO] Multi-Fund Mode: True
+2025-06-16 11:55:26,083 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 11:55:26,083 [INFO] IB Commission per Lot: $7.00
+2025-06-16 11:55:26,083 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 11:55:26,084 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 11:55:26,084 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 11:55:26,084 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 11:55:26,084 [INFO] OMS Enabled: True
+2025-06-16 11:55:26,084 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 11:55:26,084 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 11:55:26,084 [INFO] Spike Guard Enabled: True
+2025-06-16 11:55:26,084 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 11:55:26,084 [INFO] Soft Cooldown Enabled: True
+2025-06-16 11:55:26,084 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 11:55:26,084 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 11:55:26,084 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 11:55:26,084 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 11:55:26,084 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 11:55:26,084 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 11:55:26,084 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 11:55:26,084 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 11:55:26,084 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 11:55:26,084 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 11:55:26,084 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 11:55:26,107 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 11:55:26,107 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 11:59:57,719 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:00:01,924 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:00:01,924 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:00:01,924 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:00:01,924 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:00:01,924 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:00:01,924 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:00:01,924 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:00:01,924 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:00:01,924 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:00:01,924 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:00:01,924 [INFO]   Optuna Trials: 50
+2025-06-16 12:00:01,924 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:00:01,924 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:00:01,925 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:00:01,927 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:00:01,928 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:00:01,928 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:00:01,928 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:00:01,928 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:00:01,928 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:00:02,224 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:00:02,224 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:00:02,224 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:00:02,224 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:00:02,224 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:00:02,224 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:00:02,224 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:00:02,225 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:00:02,226 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:00:02,226 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:00:02,226 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:00:02,226 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:00:02,230 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:00:02,489 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:00:02,489 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:00:02,532 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:00:02,574 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:00:02,574 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:00:02,996 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:00:02,997 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:00:09,026 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:00:09,051 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:00:09,051 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:00:09,051 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:00:09,052 [INFO] Multi-Fund Mode: True
+2025-06-16 12:00:09,052 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:00:09,052 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:00:09,052 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:00:09,052 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:00:09,052 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:00:09,052 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:00:09,052 [INFO] OMS Enabled: True
+2025-06-16 12:00:09,052 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:00:09,052 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:00:09,052 [INFO] Spike Guard Enabled: True
+2025-06-16 12:00:09,054 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:00:09,054 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:00:09,054 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:00:09,054 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:00:09,054 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:00:09,054 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:00:09,054 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:00:09,054 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:00:09,054 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:00:09,054 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:00:09,054 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:00:09,054 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:00:09,054 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:00:09,085 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:00:09,085 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:05:28,142 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:05:29,586 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:05:29,586 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:05:29,586 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:05:29,586 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:05:29,586 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:05:29,586 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:05:29,586 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:05:29,586 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:05:29,586 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:05:29,587 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:05:29,587 [INFO]   Optuna Trials: 50
+2025-06-16 12:05:29,587 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:05:29,587 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:05:29,587 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:05:29,588 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:05:29,588 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:05:29,588 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:05:29,588 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:05:29,588 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:05:29,588 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:05:29,726 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:05:29,726 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:05:29,726 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:05:29,726 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:05:29,726 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:05:29,728 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:05:29,728 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:05:29,728 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:05:29,728 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:05:29,729 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:05:29,729 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:05:29,729 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:05:29,732 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:05:29,940 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:05:29,940 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:05:29,966 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:05:29,976 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:05:29,976 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:05:30,283 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:05:30,283 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:05:32,732 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:05:32,751 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:05:32,751 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:05:32,751 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:05:32,752 [INFO] Multi-Fund Mode: True
+2025-06-16 12:05:32,752 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:05:32,752 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:05:32,752 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:05:32,752 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:05:32,752 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:05:32,752 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:05:32,752 [INFO] OMS Enabled: True
+2025-06-16 12:05:32,752 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:05:32,753 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:05:32,753 [INFO] Spike Guard Enabled: True
+2025-06-16 12:05:32,753 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:05:32,753 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:05:32,753 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:05:32,753 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:05:32,753 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:05:32,753 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:05:32,753 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:05:32,753 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:05:32,753 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:05:32,753 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:05:32,753 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:05:32,753 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:05:32,753 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:05:32,776 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:05:32,776 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:06:59,566 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:07:00,949 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:00,950 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:00,950 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:07:00,950 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:07:00,950 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:07:00,950 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:07:00,950 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:07:00,950 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:07:00,950 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:07:00,950 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:07:00,950 [INFO]   Optuna Trials: 50
+2025-06-16 12:07:00,950 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:07:00,950 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:07:00,950 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:07:00,951 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:07:00,952 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:00,952 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:00,952 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:07:00,952 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:00,952 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:01,079 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:07:01,079 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:07:01,079 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:07:01,079 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:07:01,079 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:07:01,079 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:07:01,079 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:07:01,080 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:07:01,080 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:07:01,080 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:07:01,080 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:07:01,080 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:07:01,084 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:07:01,310 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:07:01,311 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:07:01,339 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:07:01,349 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:07:01,349 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:07:01,642 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:07:01,642 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:07:04,103 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:07:04,121 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:07:04,121 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:07:04,121 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:07:04,122 [INFO] Multi-Fund Mode: True
+2025-06-16 12:07:04,122 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:07:04,122 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:07:04,122 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:07:04,122 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:07:04,122 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:07:04,122 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:07:04,122 [INFO] OMS Enabled: True
+2025-06-16 12:07:04,123 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:07:04,123 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:07:04,123 [INFO] Spike Guard Enabled: True
+2025-06-16 12:07:04,123 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:07:04,123 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:07:04,123 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:07:04,123 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:07:04,123 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:07:04,123 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:07:04,123 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:07:04,123 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:07:04,123 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:07:04,123 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:07:04,123 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:07:04,123 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:07:04,123 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:07:04,146 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:07:04,147 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:07:09,660 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:07:11,217 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:11,217 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:11,217 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:07:11,217 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:07:11,217 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:07:11,217 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:07:11,217 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:07:11,217 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:07:11,217 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:07:11,217 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:07:11,217 [INFO]   Optuna Trials: 50
+2025-06-16 12:07:11,217 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:07:11,217 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:07:11,217 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:07:11,218 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:07:11,219 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:11,219 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:11,219 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:07:11,219 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:11,219 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:07:11,353 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:07:11,353 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:07:11,353 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:07:11,353 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:07:11,353 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:07:11,353 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:07:11,353 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:07:11,354 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:07:11,354 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:07:11,354 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:07:11,354 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:07:11,355 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:07:11,357 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:07:11,570 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:07:11,570 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:07:11,592 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:07:11,602 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:07:11,602 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:07:11,889 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:07:11,889 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:07:14,008 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:07:14,027 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:07:14,027 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:07:14,027 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:07:14,028 [INFO] Multi-Fund Mode: True
+2025-06-16 12:07:14,028 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:07:14,028 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:07:14,028 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:07:14,028 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:07:14,028 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:07:14,028 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:07:14,028 [INFO] OMS Enabled: True
+2025-06-16 12:07:14,028 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:07:14,028 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:07:14,028 [INFO] Spike Guard Enabled: True
+2025-06-16 12:07:14,028 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:07:14,028 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:07:14,028 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:07:14,028 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:07:14,028 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:07:14,028 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:07:14,028 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:07:14,028 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:07:14,029 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:07:14,029 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:07:14,029 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:07:14,029 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:07:14,029 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:07:14,051 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:07:14,051 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:17:38,717 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:17:40,542 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:17:40,542 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:17:40,542 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:17:40,542 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:17:40,542 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:17:40,542 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:17:40,542 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:17:40,542 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:17:40,542 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:17:40,542 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:17:40,542 [INFO]   Optuna Trials: 50
+2025-06-16 12:17:40,542 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:17:40,544 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:17:40,544 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:17:40,545 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:17:40,546 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:17:40,546 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:17:40,546 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:17:40,546 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:17:40,547 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:17:40,702 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:17:40,702 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:17:40,702 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:17:40,702 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:17:40,702 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:17:40,702 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:17:40,702 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:17:40,703 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:17:40,703 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:17:40,703 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:17:40,704 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:17:40,704 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:17:40,706 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:17:40,942 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:17:40,942 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:17:40,967 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:17:40,978 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:17:40,978 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:17:41,353 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:17:41,353 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:17:44,287 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:17:44,308 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:17:44,308 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:17:44,308 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:17:44,309 [INFO] Multi-Fund Mode: True
+2025-06-16 12:17:44,309 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:17:44,309 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:17:44,309 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:17:44,309 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:17:44,309 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:17:44,309 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:17:44,309 [INFO] OMS Enabled: True
+2025-06-16 12:17:44,309 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:17:44,309 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:17:44,310 [INFO] Spike Guard Enabled: True
+2025-06-16 12:17:44,310 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:17:44,310 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:17:44,310 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:17:44,310 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:17:44,310 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:17:44,310 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:17:44,310 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:17:44,310 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:17:44,310 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:17:44,310 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:17:44,310 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:17:44,310 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:17:44,310 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:17:44,344 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:17:44,344 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:38:22,577 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:38:24,071 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:38:24,072 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:38:24,072 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:38:24,072 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:38:24,072 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:38:24,072 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:38:24,072 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:38:24,072 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:38:24,072 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:38:24,072 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:38:24,072 [INFO]   Optuna Trials: 50
+2025-06-16 12:38:24,072 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:38:24,072 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:38:24,072 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:38:24,074 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:38:24,074 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:38:24,074 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:38:24,074 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:38:24,075 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:38:24,075 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:38:24,210 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:38:24,210 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:38:24,210 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:38:24,210 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:38:24,210 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:38:24,210 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:38:24,210 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:38:24,211 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:38:24,212 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:38:24,212 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:38:24,212 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:38:24,212 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:38:24,216 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:38:24,447 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:38:24,447 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:38:24,488 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:38:24,502 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:38:24,502 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:38:25,172 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:38:25,172 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:38:27,931 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:38:27,957 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:38:27,957 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:38:27,957 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:38:27,958 [INFO] Multi-Fund Mode: True
+2025-06-16 12:38:27,958 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:38:27,958 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:38:27,958 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:38:27,958 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:38:27,958 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:38:27,958 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:38:27,958 [INFO] OMS Enabled: True
+2025-06-16 12:38:27,958 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:38:27,958 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:38:27,958 [INFO] Spike Guard Enabled: True
+2025-06-16 12:38:27,958 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:38:27,958 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:38:27,959 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:38:27,959 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:38:27,959 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:38:27,959 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:38:27,959 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:38:27,959 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:38:27,959 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:38:27,959 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:38:27,959 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:38:27,959 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:38:27,959 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:38:27,986 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:38:27,986 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:45:20,747 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:45:21,995 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:45:21,995 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:45:21,996 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:45:21,996 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:45:21,996 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:45:21,996 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:45:21,996 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:45:21,996 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:45:21,996 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:45:21,996 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:45:21,996 [INFO]   Optuna Trials: 50
+2025-06-16 12:45:21,996 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:45:21,996 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:45:21,996 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:45:21,997 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:45:21,997 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:45:21,997 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:45:21,998 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:45:21,998 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:45:21,998 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:45:22,124 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:45:22,124 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:45:22,124 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:45:22,124 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:45:22,124 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:45:22,124 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:45:22,124 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:45:22,125 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:45:22,125 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:45:22,125 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:45:22,125 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:45:22,127 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:45:22,129 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:45:22,317 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:45:22,317 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:45:22,336 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:45:22,345 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:45:22,345 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:45:22,618 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:45:22,618 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:45:24,814 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:45:24,842 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:45:24,842 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:45:24,842 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:45:24,842 [INFO] Multi-Fund Mode: True
+2025-06-16 12:45:24,842 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:45:24,842 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:45:24,842 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:45:24,842 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:45:24,842 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:45:24,844 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:45:24,844 [INFO] OMS Enabled: True
+2025-06-16 12:45:24,844 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:45:24,844 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:45:24,844 [INFO] Spike Guard Enabled: True
+2025-06-16 12:45:24,844 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:45:24,844 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:45:24,844 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:45:24,844 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:45:24,844 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:45:24,844 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:45:24,844 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:45:24,844 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:45:24,844 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:45:24,844 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:45:24,844 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:45:24,844 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:45:24,844 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:45:24,866 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:45:24,866 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:46:39,228 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:46:40,437 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:46:40,437 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:46:40,437 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:46:40,437 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:46:40,437 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:46:40,437 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:46:40,437 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:46:40,437 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:46:40,437 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:46:40,437 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:46:40,437 [INFO]   Optuna Trials: 50
+2025-06-16 12:46:40,437 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:46:40,437 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:46:40,437 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:46:40,439 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:46:40,439 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:46:40,439 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:46:40,439 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:46:40,439 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:46:40,439 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:46:40,549 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:46:40,549 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:46:40,549 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:46:40,549 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:46:40,549 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:46:40,549 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:46:40,549 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:46:40,550 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:46:40,550 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:46:40,550 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:46:40,550 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:46:40,550 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:46:40,553 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:46:40,747 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:46:40,748 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:46:40,772 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:46:40,782 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:46:40,782 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:46:41,060 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:46:41,060 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:46:43,251 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:46:43,271 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:46:43,271 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:46:43,271 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:46:43,272 [INFO] Multi-Fund Mode: True
+2025-06-16 12:46:43,272 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:46:43,272 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:46:43,272 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:46:43,272 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:46:43,272 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:46:43,272 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:46:43,272 [INFO] OMS Enabled: True
+2025-06-16 12:46:43,272 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:46:43,272 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:46:43,272 [INFO] Spike Guard Enabled: True
+2025-06-16 12:46:43,272 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:46:43,272 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:46:43,272 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:46:43,272 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:46:43,272 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:46:43,272 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:46:43,272 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:46:43,272 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:46:43,272 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:46:43,272 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:46:43,272 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:46:43,272 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:46:43,272 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:46:43,296 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:46:43,297 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:48:54,103 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:48:55,301 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:48:55,301 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:48:55,301 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:48:55,301 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:48:55,301 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:48:55,301 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:48:55,301 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:48:55,301 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:48:55,301 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:48:55,301 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:48:55,301 [INFO]   Optuna Trials: 50
+2025-06-16 12:48:55,301 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:48:55,301 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:48:55,301 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:48:55,302 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:48:55,303 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:48:55,303 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:48:55,303 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:48:55,303 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:48:55,303 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:48:55,412 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:48:55,412 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:48:55,412 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:48:55,412 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:48:55,412 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:48:55,412 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:48:55,412 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:48:55,413 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:48:55,413 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:48:55,413 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:48:55,414 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:48:55,414 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:48:55,415 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:48:55,604 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:48:55,604 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:48:55,638 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:48:55,647 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:48:55,647 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:48:55,915 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:48:55,915 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:48:58,050 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:48:58,071 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:48:58,071 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:48:58,071 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:48:58,072 [INFO] Multi-Fund Mode: True
+2025-06-16 12:48:58,072 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:48:58,072 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:48:58,072 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:48:58,072 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:48:58,072 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:48:58,072 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:48:58,072 [INFO] OMS Enabled: True
+2025-06-16 12:48:58,073 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:48:58,073 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:48:58,073 [INFO] Spike Guard Enabled: True
+2025-06-16 12:48:58,073 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:48:58,073 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:48:58,073 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:48:58,073 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:48:58,073 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:48:58,073 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:48:58,073 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:48:58,073 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:48:58,073 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:48:58,073 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:48:58,073 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:48:58,073 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:48:58,073 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:48:58,098 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:48:58,098 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:49:41,854 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:49:43,034 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:49:43,034 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:49:43,034 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:49:43,034 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:49:43,034 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:49:43,034 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:49:43,034 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:49:43,034 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:49:43,034 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:49:43,034 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:49:43,034 [INFO]   Optuna Trials: 50
+2025-06-16 12:49:43,035 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:49:43,035 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:49:43,035 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:49:43,035 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:49:43,036 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:49:43,036 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:49:43,036 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:49:43,036 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:49:43,036 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:49:43,147 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:49:43,147 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:49:43,147 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:49:43,147 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:49:43,147 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:49:43,147 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:49:43,147 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:49:43,147 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:49:43,148 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:49:43,148 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:49:43,148 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:49:43,148 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:49:43,150 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:49:43,341 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:49:43,341 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:49:43,370 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:49:43,380 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:49:43,380 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:49:43,652 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:49:43,652 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:49:45,825 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:49:45,853 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:49:45,853 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:49:45,854 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:49:45,855 [INFO] Multi-Fund Mode: True
+2025-06-16 12:49:45,855 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:49:45,855 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:49:45,855 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:49:45,855 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:49:45,855 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:49:45,855 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:49:45,855 [INFO] OMS Enabled: True
+2025-06-16 12:49:45,855 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:49:45,855 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:49:45,855 [INFO] Spike Guard Enabled: True
+2025-06-16 12:49:45,855 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:49:45,855 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:49:45,855 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:49:45,855 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:49:45,855 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:49:45,856 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:49:45,856 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:49:45,856 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:49:45,856 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:49:45,856 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:49:45,856 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:49:45,856 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:49:45,856 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:49:45,879 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:49:45,879 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.
+2025-06-16 12:56:11,206 [INFO] Part 5: Feature Engineering & Indicator Calculation Functions Loaded.
+2025-06-16 12:56:12,478 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:56:12,478 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:56:12,478 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:56:12,478 [INFO] Loading Machine Learning Configuration & Helpers...
+2025-06-16 12:56:12,478 [INFO] USE_META_CLASSIFIER (L1 Filter): True
+2025-06-16 12:56:12,478 [INFO] USE_META_META_CLASSIFIER (L2 Filter): False
+2025-06-16 12:56:12,478 [INFO] Default L1 Probability Threshold: 0.25
+2025-06-16 12:56:12,478 [INFO] Default Re-entry Probability Threshold: 0.25
+2025-06-16 12:56:12,478 [INFO] Default L2 Probability Threshold: 0.5
+2025-06-16 12:56:12,478 [INFO] Optuna Hyperparameter Tuning Enabled: True
+2025-06-16 12:56:12,478 [INFO]   Optuna Trials: 50
+2025-06-16 12:56:12,478 [INFO]   Optuna CV Splits: 5
+2025-06-16 12:56:12,478 [INFO]   Optuna Metric: AUC (maximize)
+2025-06-16 12:56:12,478 [INFO] Auto Threshold Tuning Enabled: True
+2025-06-16 12:56:12,479 [INFO] Part 6: Machine Learning Configuration & Helpers Loaded (v4.8.8 Patch 9 Applied).
+2025-06-16 12:56:12,480 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:56:12,480 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:56:12,480 [INFO] META_META_MIN_PROBA_THRESH not set, using default 0.5
+2025-06-16 12:56:12,480 [INFO] META_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:56:12,480 [INFO] REENTRY_MIN_PROBA_THRESH not set, using default 0.25
+2025-06-16 12:56:12,605 [INFO] [Settings] cooldown_secs = 60
+2025-06-16 12:56:12,605 [INFO] [Settings] kill_switch_pct = 0.2
+2025-06-16 12:56:12,605 [INFO] [Settings] feature_format = parquet
+2025-06-16 12:56:12,605 [INFO] [Settings] min_signal_score_entry = 0.3
+2025-06-16 12:56:12,605 [INFO] [Settings] meta_filter_threshold = 0.5
+2025-06-16 12:56:12,605 [INFO] [Settings] meta_filter_relaxed_threshold = 0.45
+2025-06-16 12:56:12,605 [INFO] [Settings] meta_filter_relax_blocks = 5
+2025-06-16 12:56:12,606 [INFO] --- (Start) Gold AI v6.9.48 ---
+2025-06-16 12:56:12,606 [INFO] --- กำลังโหลดไลบรารีและตรวจสอบ Dependencies ---
+2025-06-16 12:56:12,606 [INFO]    (Info) Using Pandas version: 2.3.0
+2025-06-16 12:56:12,606 [INFO]    (Info) Using NumPy version: 1.24.4
+2025-06-16 12:56:12,607 [INFO]    (Info) Using Scikit-learn version: 1.6.1
+2025-06-16 12:56:12,609 [INFO]    (Info) Using TA version: 0.11.0
+2025-06-16 12:56:12,801 [INFO]    (Info) Using Optuna version: 4.2.1
+2025-06-16 12:56:12,802 [INFO]    (Info) ตรวจสอบเวอร์ชัน CatBoost: 1.2.8
+2025-06-16 12:56:12,830 [INFO]    (Info) ตรวจสอบจำนวน GPU สำหรับ CatBoost: 1
+2025-06-16 12:56:12,840 [INFO]    (Info) Using psutil version: 7.0.0
+2025-06-16 12:56:12,840 [INFO]    (Info) Using SHAP version: 0.48.0
+2025-06-16 12:56:13,104 [INFO] (Info) ไม่ใช่ Colab – ใช้เส้นทางในเครื่องสำหรับจัดเก็บ log และข้อมูล
+2025-06-16 12:56:13,104 [INFO]    (Checking) กำลังตรวจสอบความพร้อมใช้งาน GPU...
+2025-06-16 12:56:15,171 [INFO]    (Success) พบ GPU: NVIDIA GeForce RTX 3050 6GB Laptop GPU
+2025-06-16 12:56:15,193 [INFO]    (Success) เริ่มต้น pynvml สำหรับการตรวจสอบ GPU สำเร็จ.
+2025-06-16 12:56:15,193 [INFO] (Info) GPU acceleration status: True
+2025-06-16 12:56:15,193 [INFO] Loading Global Configuration Settings...
+2025-06-16 12:56:15,194 [INFO] Multi-Fund Mode: True
+2025-06-16 12:56:15,194 [INFO] Fund Profiles: ['SAFE', 'NORMAL', 'SPIKE', 'AGGRESSIVE', 'MIRROR']
+2025-06-16 12:56:15,194 [INFO] IB Commission per Lot: $7.00
+2025-06-16 12:56:15,194 [INFO] Part 1: Setup & Configuration Complete.
+2025-06-16 12:56:15,194 [INFO] Loading Core Parameters & Strategy Settings...
+2025-06-16 12:56:15,194 [INFO] MIN_SIGNAL_SCORE_ENTRY not set, using default 0.3
+2025-06-16 12:56:15,194 [INFO] ADAPTIVE_SIGNAL_SCORE_QUANTILE not set, using default 0.4
+2025-06-16 12:56:15,194 [INFO] OMS Enabled: True
+2025-06-16 12:56:15,194 [INFO] Kill Switch Enabled: True (DD > 30%, Losses > 5)
+2025-06-16 12:56:15,194 [INFO] Max Drawdown Threshold (Block New Orders): 10%
+2025-06-16 12:56:15,194 [INFO] Spike Guard Enabled: True
+2025-06-16 12:56:15,195 [INFO] Post-Trade Cooldown: 2 bars
+2025-06-16 12:56:15,195 [INFO] Soft Cooldown Enabled: True
+2025-06-16 12:56:15,195 [INFO] Recovery Mode Enabled: Losses >= 4, Lot Multiplier: 0.3
+2025-06-16 12:56:15,195 [INFO] Re-Entry Enabled: True (Cooldown: 1 bars, Threshold: 0.4)
+2025-06-16 12:56:15,195 [INFO] META_FILTER_THRESHOLD not set, using default 0.5
+2025-06-16 12:56:15,195 [INFO] META_FILTER_RELAXED_THRESHOLD not set, using default 0.45
+2025-06-16 12:56:15,195 [INFO] META_FILTER_RELAX_BLOCKS not set, using default 5
+2025-06-16 12:56:15,195 [INFO] Meta Filter Threshold: 0.5 (Relaxed: 0.45, Blocks: 5)
+2025-06-16 12:56:15,195 [INFO]    *** (Config Info) Forced Entry is ENABLED: True ***
+2025-06-16 12:56:15,195 [INFO] Default Risk Per Trade: 1.00%
+2025-06-16 12:56:15,195 [INFO] Lot Size Limits: Min=0.01, Max=5.0
+2025-06-16 12:56:15,195 [INFO] DRIFT_WASSERSTEIN_THRESHOLD not set, using default 0.1
+2025-06-16 12:56:15,195 [INFO] Part 2: Core Parameters & Strategy Settings Loaded.
+2025-06-16 12:56:15,216 [INFO] Part 3: Helper Functions Loaded (v4.8.8 Patch 26.11 Applied).
+2025-06-16 12:56:15,216 [INFO] Part 4: Data Loading & Initial Preparation Functions Loaded.

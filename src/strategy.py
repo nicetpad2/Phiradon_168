@@ -1096,11 +1096,19 @@ import math  # For math.isclose
 import importlib  # Added for safe global access
 import sys  # Added for safe global access
 
+# [refactor] import ฟังก์ชันหลักจากโมดูลใหม่
+from .strategy_core import run_backtest_simulation_v34
+from .strategy_utils import dynamic_tp2_multiplier, get_adaptive_tsl_step
+from .strategy_orders import process_active_orders
+from .strategy_entry_exit import is_entry_allowed, check_main_exit_conditions
+from .strategy_metrics import calculate_metrics
+
 # Ensure tqdm is available (imported in Part 1)
 try:
     from tqdm.notebook import tqdm
 except ImportError:
     tqdm = None # Define tqdm as None if import fails
+# TODO: ลบ/ย้ายโค้ดเดิมที่ duplicate ไปยังไฟล์ใหม่ให้หมด (เหลือเฉพาะ interface/entry point)
 
 # --- Safe Global Variable Access ---
 # Use a helper function for safe access with defaults

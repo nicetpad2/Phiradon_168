@@ -127,9 +127,10 @@ def walk_forward_loop(
         row = {"fold": fold, **metrics, "failed": failed}
         rows.append(row)
 
-        if output_path is not None:
+        if output_path:
+            safe_path = output_path if output_path else "output_default/wfv_monitor.csv"
             df_out = pd.DataFrame([row])
-            df_out.to_csv(output_path, mode="a", header=not Path(output_path).exists(), index=False)
+            df_out.to_csv(safe_path, mode="a", header=not Path(safe_path).exists(), index=False)
 
         start += step
         fold += 1

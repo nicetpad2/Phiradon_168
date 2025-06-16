@@ -66,7 +66,11 @@ def load_or_generate_trade_log(
             "trade log generation process encountered an error"
         ) from exc
 
-    os.makedirs(os.path.dirname(log_path), exist_ok=True)
+    def safe_dirname(path, default="output_default"):
+        d = os.path.dirname(path)
+        return d if d else default
+
+    os.makedirs(safe_dirname(log_path), exist_ok=True)
     new_df.to_csv(log_path, index=False)
     logger.info("Generated trade log with %d rows", len(new_df))
     return new_df

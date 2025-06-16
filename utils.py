@@ -121,11 +121,28 @@ def get_resource_plan(debug: bool = False) -> Dict[str, object]:
     return plan
 
 
+def load_trade_log(filepath: str, min_rows: int = 10) -> pd.DataFrame:
+    """Load trade log and regenerate via backtest if rows are insufficient."""
+    from src.trade_log_pipeline import load_or_generate_trade_log
+    logger.info(f"[Patch v6.5.9] Attempting to load trade log from {filepath}")
+    # ปรับ path และ config ตามที่ ProjectP.py ใช้
+    from src.utils.pipeline_config import load_config
+    pipeline_config = load_config()
+    import os
+    output_dir = getattr(pipeline_config, "output_dir", "output_default")
+    features_filename = getattr(pipeline_config, "features_filename", "features_main.json")
+    features_path = os.path.join(output_dir, features_filename)
+    return load_or_generate_trade_log(
+        filepath, min_rows=min_rows, features_path=features_path
+    )
+
+
 __all__ = [
     "print_qa_summary",
     "convert_thai_datetime",
     "prepare_csv_auto",
     "get_resource_plan",
+    "load_trade_log",
 ]
 
 

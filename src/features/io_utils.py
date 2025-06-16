@@ -84,6 +84,8 @@ def is_volume_spike(current_vol, avg_vol, multiplier=1.5):
 
 # [Patch v5.6.2] HDF5 helpers fallback to pickle when PyTables missing
 def save_features_hdf5(df, path):
+    path = safe_path(path)
+    safe_makedirs_for_file(path)
     """Save a DataFrame to an HDF5 file or pickle if PyTables is unavailable."""
     try:
         import importlib.util
@@ -121,6 +123,8 @@ def load_features_hdf5(path):
 
 # [Patch vX.Y.Z] Parquet helpers for faster feature loading
 def save_features_parquet(df: pd.DataFrame, path: str) -> None:
+    path = safe_path(path)
+    safe_makedirs_for_file(path)
     """Save a DataFrame to a Parquet file."""
     try:
         df.to_parquet(path)
@@ -146,6 +150,8 @@ def load_features_parquet(path: str) -> pd.DataFrame | None:
 
 # [Patch v6.8.5] Generic helpers choosing format
 def save_features(df: pd.DataFrame, path: str, fmt: str = "parquet") -> None:
+    path = safe_path(path)
+    safe_makedirs_for_file(path)
     """Save DataFrame in the specified format."""
     fmt_lower = (fmt or "parquet").lower()
     if fmt_lower == "hdf5":
@@ -341,3 +347,13 @@ def build_feature_catalog(data_dir: str, output_dir: str) -> list:
         and pd.api.types.is_numeric_dtype(df_sample[c])
     ]  # [Patch v6.7.3] skip Date/Timestamp columns
     return features
+
+
+def safe_path(path: str, default: str = "output_default/features.csv") -> str:
+    return path if path else default
+
+
+def safe_makedirs_for_file(path: str):
+    dir_path = os.path.dirname(path) or "output_default"
+    os.makedirs(dir_path, exist_ok=True)
+    return dir_path

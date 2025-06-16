@@ -22,15 +22,16 @@ except Exception:  # pragma: no cover - lightgbm optional
 
 def save_model(model, output_dir: str, model_name: str) -> None:
     """[Patch v5.3.2] Save model or create QA log if model is None."""
-    os.makedirs(output_dir, exist_ok=True)
-    path = os.path.join(output_dir, f"{model_name}.joblib")
+    out_dir = output_dir if output_dir else "output_default"
+    os.makedirs(out_dir, exist_ok=True)
+    path = os.path.join(out_dir, f"{model_name}.joblib")
     if model is None:
         msg = (
             f"[QA] No model was trained for {model_name}. Creating empty model QA file."
         )
         logger.warning(msg)
         logging.getLogger().warning(msg)
-        qa_path = os.path.join(output_dir, f"{model_name}_qa.log")
+        qa_path = os.path.join(out_dir, f"{model_name}_qa.log")
         with open(qa_path, "w", encoding="utf-8") as f:
             f.write("[QA] No model trained. Output not generated.\n")
     else:

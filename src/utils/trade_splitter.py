@@ -29,7 +29,8 @@ def has_buy_sell(df: pd.DataFrame) -> bool:
 
 def split_trade_log(df: pd.DataFrame, output_dir: str) -> None:
     """[Patch v5.7.4] Split trade log by side with detailed logging."""
-    os.makedirs(output_dir, exist_ok=True)
+    out_dir = output_dir if output_dir else "output_default"
+    os.makedirs(out_dir, exist_ok=True)
     buy_rows, sell_rows, normal_rows = [], [], []
     for idx, trade in df.iterrows():
         side = normalize_side(trade.get("side", ""))
@@ -45,19 +46,16 @@ def split_trade_log(df: pd.DataFrame, output_dir: str) -> None:
             logging.getLogger().info(msg)
         else:
             normal_rows.append(trade)
-            msg = f"เขียนไฟล์ trade_log_NORMAL.csv เลขแถวที่ {idx}"
-            logger.info(msg)
-            logging.getLogger().info(msg)
 
     written = 0
     if buy_rows:
-        pd.DataFrame(buy_rows).to_csv(os.path.join(output_dir, "trade_log_BUY.csv"), index=False)
+        pd.DataFrame(buy_rows).to_csv(os.path.join(out_dir, "trade_log_BUY.csv"), index=False)
         written += 1
     if sell_rows:
-        pd.DataFrame(sell_rows).to_csv(os.path.join(output_dir, "trade_log_SELL.csv"), index=False)
+        pd.DataFrame(sell_rows).to_csv(os.path.join(out_dir, "trade_log_SELL.csv"), index=False)
         written += 1
     if normal_rows:
-        pd.DataFrame(normal_rows).to_csv(os.path.join(output_dir, "trade_log_NORMAL.csv"), index=False)
+        pd.DataFrame(normal_rows).to_csv(os.path.join(out_dir, "trade_log_NORMAL.csv"), index=False)
         written += 1
     if written == 0:
         msg = "[QA-WARNING] ไม่พบรายการใดถูกเขียนลง trade_log_BUY.csv / SELL.csv / NORMAL.csv  กรุณาตรวจสอบเงื่อนไขในโค้ด"
