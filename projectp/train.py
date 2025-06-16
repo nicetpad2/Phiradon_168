@@ -1,11 +1,20 @@
 import os
 import sys
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import TimeSeriesSplit
-from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+try:
+    import cudf
+    import cupy as cp
+    from cuml.ensemble import RandomForestClassifier as cuRF
+    from cuml.linear_model import LogisticRegression as cuLR
+    from cuml.metrics import roc_auc_score as cu_roc_auc_score
+    GPU_AVAILABLE = True
+    print('[GPU] RAPIDS/cuDF/cuML detected: Using GPU for DataFrame and ML!')
+except ImportError:
+    import pandas as pd
+    import numpy as np
+    from sklearn.metrics import roc_auc_score, classification_report, confusion_matrix
+    GPU_AVAILABLE = False
+    print('[CPU] RAPIDS/cuDF/cuML not found: Using CPU fallback (pandas/sklearn)')
 
 # NOTE: ต้องแน่ใจว่า ensure_super_features_file, get_feature_target_columns ถูก import หรือ define stub
 try:
@@ -44,35 +53,51 @@ def split_train_val_test(X, y, test_size=0.15, val_size=0.15, random_state=42):
 def train_validate_test_model():
     """Train, validate, and test model. Return metrics and predictions for all sets."""
     fe_super_path = ensure_super_features_file()
-    df = pd.read_parquet(fe_super_path)
+    if GPU_AVAILABLE:
+        df = cudf.read_parquet(fe_super_path)
+    else:
+        df = pd.read_parquet(fe_super_path)
     feature_cols, target_col = get_feature_target_columns(df)
     X = df[feature_cols]
     y = df[target_col]
-    print(f"[DEBUG][train] shape X: {X.shape}, y: {y.shape}, target unique: {np.unique(y)}")
-    if len(np.unique(y)) == 1:
-        print(f"[STOP][train] Target มีค่าเดียว: {np.unique(y)} หยุด pipeline")
+    print(f"[DEBUG][train] shape X: {X.shape}, y: {y.shape}, target unique: {np.unique(y) if not GPU_AVAILABLE else cp.unique(y)}")
+    if (cp.unique(y).shape[0] if GPU_AVAILABLE else np.unique(y).shape[0]) == 1:
+        print(f"[STOP][train] Target มีค่าเดียว: {cp.unique(y) if GPU_AVAILABLE else np.unique(y)} หยุด pipeline")
         sys.exit(1)
     assert not check_data_leakage(df, target_col), "[STOP] พบ feature leakage ในข้อมูล!"
     # Balance class: oversample minority class (RandomOverSampler) + class_weight
     from sklearn.utils.class_weight import compute_class_weight
-    from imblearn.over_sampling import RandomOverSampler
-    ros = RandomOverSampler(random_state=42)
-    X_res, y_res = ros.fit_resample(X, y)
-    print(f"[Balance] Oversampled: {np.bincount(y_res)}")
-    class_weights = compute_class_weight('balanced', classes=np.unique(y_res), y=y_res)
-    class_weight_dict = {k: v for k, v in zip(np.unique(y_res), class_weights)}
+    # Oversample (เทพ: GPU/CPU อัตโนมัติ)
+    if GPU_AVAILABLE:
+        X_res, y_res = oversample_gpu(X, y)
+    else:
+        from imblearn.over_sampling import RandomOverSampler
+        ros = RandomOverSampler(random_state=42)
+        X_res, y_res = ros.fit_resample(X, y)
     # Split train/val/test
-    X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test(X_res, y_res, test_size=0.15, val_size=0.15, random_state=42)
+    if GPU_AVAILABLE:
+        # ใช้ cuML/rapids สำหรับ split (หรือแปลงเป็น numpy)
+        from cuml.model_selection import train_test_split as cu_train_test_split
+        X_temp, X_test, y_temp, y_test = cu_train_test_split(X_res, y_res, test_size=0.15, random_state=42, stratify=y_res)
+        val_ratio = 0.15 / (1 - 0.15)
+        X_train, X_val, y_train, y_val = cu_train_test_split(X_temp, y_temp, test_size=val_ratio, random_state=42, stratify=y_temp)
+    else:
+        X_train, X_val, X_test, y_train, y_val, y_test = split_train_val_test(X_res, y_res, test_size=0.15, val_size=0.15, random_state=42)
     # AutoML: ลองหลายโมเดล/parameter (ใช้ validation set)
-    from sklearn.ensemble import RandomForestClassifier
-    from sklearn.linear_model import LogisticRegression
-    from xgboost import XGBClassifier
+    model_grid = []
+    if GPU_AVAILABLE:
+        model_grid.append(('cuML-RF', cuRF, {'n_estimators': [100, 200], 'max_depth': [5, 10]}))
+        model_grid.append(('cuML-LogReg', cuLR, {'C': [0.1, 1.0], 'max_iter': [200]}))
+        from xgboost import XGBClassifier
+        model_grid.append(('XGBoost-GPU', XGBClassifier, {'n_estimators': [100], 'max_depth': [5], 'use_label_encoder': [False], 'eval_metric': ['logloss'], 'tree_method': ['gpu_hist'], 'predictor': ['gpu_predictor']}))
+    else:
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.linear_model import LogisticRegression
+        from xgboost import XGBClassifier
+        model_grid.append(('RandomForest', RandomForestClassifier, {'n_estimators': [100, 200], 'max_depth': [5, 10]}))
+        model_grid.append(('LogisticRegression', LogisticRegression, {'C': [0.1, 1.0], 'max_iter': [200]}))
+        model_grid.append(('XGBoost', XGBClassifier, {'n_estimators': [100], 'max_depth': [5], 'use_label_encoder': [False], 'eval_metric': ['logloss']}))
     from sklearn.model_selection import ParameterGrid
-    model_grid = [
-        ('RandomForest', RandomForestClassifier, {'n_estimators': [100, 200], 'max_depth': [5, 10]}),
-        ('LogisticRegression', LogisticRegression, {'C': [0.1, 1.0], 'max_iter': [200]}),
-        ('XGBoost', XGBClassifier, {'n_estimators': [100], 'max_depth': [5], 'use_label_encoder': [False], 'eval_metric': ['logloss']})
-    ]
     best_score = -float('inf')
     best_model = None
     best_params = None
@@ -86,11 +111,11 @@ def train_validate_test_model():
                 y_pred_val = model.predict_proba(X_val)[:,1]
             else:
                 y_pred_val = model.predict(X_val)
-            auc = roc_auc_score(y_val, y_pred_val)
+            auc = cu_roc_auc_score(y_val, y_pred_val) if GPU_AVAILABLE else roc_auc_score(y_val, y_pred_val)
             print(f"[AutoML] {name} val AUC: {auc:.4f}")
             if auc > best_score:
                 best_score = auc
-                best_model = Model(**params)
+                best_model = model
                 best_params = params
     # Retrain best model on train+val, test on test set
     X_trainval = pd.concat([X_train, X_val])
@@ -158,87 +183,89 @@ def train_and_validate_model() -> float:
     assert not check_data_leakage(df, target_col), "[STOP] พบ feature leakage ในข้อมูล!"
     # Balance class: oversample minority class (RandomOverSampler) + class_weight
     from sklearn.utils.class_weight import compute_class_weight
-    from imblearn.over_sampling import RandomOverSampler
-    # Oversample minority class
-    ros = RandomOverSampler(random_state=42)
-    X_res, y_res = ros.fit_resample(X, y)
-    print(f"[Balance] Oversampled: {np.bincount(y_res)}")
-    # Compute class_weight for model
-    class_weights = compute_class_weight('balanced', classes=np.unique(y_res), y=y_res)
-    class_weight_dict = {k: v for k, v in zip(np.unique(y_res), class_weights)}
-    use_gpu = False
-    aucs = []
-    # ใช้ X_res, y_res แทน X, y ในการ train/test
-    X = X_res
-    y = y_res
-    try:
-        import cuml
-        from cuml.ensemble import RandomForestClassifier as cuRF
-        from cuml.metrics import roc_auc_score as cu_roc_auc_score
-        use_gpu = True
-        print("[GPU] ใช้ cuML RandomForestClassifier (GPU)")
-        tscv = TimeSeriesSplit(n_splits=5)
-        for train_idx, val_idx in tscv.split(X_res):
-            X_train, X_val = X_res[train_idx], X_res[val_idx]
-            y_train, y_val = y_res[train_idx], y_res[val_idx]
-            print(f"[DEBUG][cuML] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
-            model = cuRF(n_estimators=100, max_depth=5, random_state=42)
-            model.fit(X_train.values, y_train.values)
-            y_pred = model.predict_proba(X_val.values)[:,1]
-            print(f"[DEBUG][cuML] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
-            print(f"[DEBUG][cuML] y_pred unique: {np.unique(y_pred)}")
-            auc = cu_roc_auc_score(y_val.values, y_pred)
-            aucs.append(float(auc))
-    except ImportError:
+    # Oversample (CPU เท่านั้น)
+    if not GPU_AVAILABLE:
+        from imblearn.over_sampling import RandomOverSampler
+        # Oversample minority class
+        ros = RandomOverSampler(random_state=42)
+        X_res, y_res = ros.fit_resample(X, y)
+        print(f"[Balance] Oversampled: {np.bincount(y_res)}")
+        # Compute class_weight for model
+        class_weights = compute_class_weight('balanced', classes=np.unique(y_res), y=y_res)
+        class_weight_dict = {k: v for k, v in zip(np.unique(y_res), class_weights)}
+        use_gpu = False
+        aucs = []
+        # ใช้ X_res, y_res แทน X, y ในการ train/test
+        X = X_res
+        y = y_res
         try:
-            import xgboost as xgb
+            import cuml
+            from cuml.ensemble import RandomForestClassifier as cuRF
+            from cuml.metrics import roc_auc_score as cu_roc_auc_score
             use_gpu = True
-            print("[GPU] ใช้ XGBoost (GPU)")
+            print("[GPU] ใช้ cuML RandomForestClassifier (GPU)")
             tscv = TimeSeriesSplit(n_splits=5)
             for train_idx, val_idx in tscv.split(X_res):
                 X_train, X_val = X_res[train_idx], X_res[val_idx]
                 y_train, y_val = y_res[train_idx], y_res[val_idx]
-                print(f"[DEBUG][XGB] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
-                dtrain = xgb.DMatrix(X_train, label=y_train)
-                dval = xgb.DMatrix(X_val, label=y_val)
-                params = {'device': 'cuda', 'max_depth': 5, 'objective': 'binary:logistic', 'eval_metric': 'auc', 'random_state': 42}
-                booster = xgb.train(params, dtrain, num_boost_round=100)
-                y_pred = booster.predict(dval)
-                print(f"[DEBUG][XGB] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
-                print(f"[DEBUG][XGB] y_pred unique: {np.unique(y_pred)}")
-                auc = roc_auc_score(y_val, y_pred)
-                aucs.append(auc)
+                print(f"[DEBUG][cuML] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
+                model = cuRF(n_estimators=100, max_depth=5, random_state=42)
+                model.fit(X_train.values, y_train.values)
+                y_pred = model.predict_proba(X_val.values)[:,1]
+                print(f"[DEBUG][cuML] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
+                print(f"[DEBUG][cuML] y_pred unique: {np.unique(y_pred)}")
+                auc = cu_roc_auc_score(y_val.values, y_pred)
+                aucs.append(float(auc))
         except ImportError:
             try:
-                from catboost import CatBoostClassifier
+                import xgboost as xgb
                 use_gpu = True
-                print("[GPU] ใช้ CatBoost (GPU)")
+                print("[GPU] ใช้ XGBoost (GPU)")
                 tscv = TimeSeriesSplit(n_splits=5)
                 for train_idx, val_idx in tscv.split(X_res):
                     X_train, X_val = X_res[train_idx], X_res[val_idx]
                     y_train, y_val = y_res[train_idx], y_res[val_idx]
-                    print(f"[DEBUG][CatBoost] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
-                    model = CatBoostClassifier(iterations=100, depth=5, task_type="GPU", devices='0', verbose=0, random_seed=42)
-                    model.fit(X_train, y_train)
-                    y_pred = model.predict_proba(X_val)[:,1]
-                    print(f"[DEBUG][CatBoost] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
-                    print(f"[DEBUG][CatBoost] y_pred unique: {np.unique(y_pred)}")
+                    print(f"[DEBUG][XGB] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
+                    dtrain = xgb.DMatrix(X_train, label=y_train)
+                    dval = xgb.DMatrix(X_val, label=y_val)
+                    params = {'device': 'cuda', 'max_depth': 5, 'objective': 'binary:logistic', 'eval_metric': 'auc', 'random_state': 42}
+                    booster = xgb.train(params, dtrain, num_boost_round=100)
+                    y_pred = booster.predict(dval)
+                    print(f"[DEBUG][XGB] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
+                    print(f"[DEBUG][XGB] y_pred unique: {np.unique(y_pred)}")
                     auc = roc_auc_score(y_val, y_pred)
                     aucs.append(auc)
             except ImportError:
-                print("[CPU] ไม่พบ cuML/XGBoost/CatBoost GPU จะใช้ RandomForest (CPU)")
-                tscv = TimeSeriesSplit(n_splits=5)
-                for train_idx, val_idx in tscv.split(X_res):
-                    X_train, X_val = X_res[train_idx], X_res[val_idx]
-                    y_train, y_val = y_res[train_idx], y_res[val_idx]
-                    print(f"[DEBUG][RF] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
-                    model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
-                    model.fit(X_train, y_train)
-                    y_pred = model.predict_proba(X_val)[:,1]
-                    print(f"[DEBUG][RF] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
-                    print(f"[DEBUG][RF] y_pred unique: {np.unique(y_pred)}")
-                    auc = roc_auc_score(y_val, y_pred)
-                    aucs.append(auc)
+                try:
+                    from catboost import CatBoostClassifier
+                    use_gpu = True
+                    print("[GPU] ใช้ CatBoost (GPU)")
+                    tscv = TimeSeriesSplit(n_splits=5)
+                    for train_idx, val_idx in tscv.split(X_res):
+                        X_train, X_val = X_res[train_idx], X_res[val_idx]
+                        y_train, y_val = y_res[train_idx], y_res[val_idx]
+                        print(f"[DEBUG][CatBoost] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
+                        model = CatBoostClassifier(iterations=100, depth=5, task_type="GPU", devices='0', verbose=0, random_seed=42)
+                        model.fit(X_train, y_train)
+                        y_pred = model.predict_proba(X_val)[:,1]
+                        print(f"[DEBUG][CatBoost] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
+                        print(f"[DEBUG][CatBoost] y_pred unique: {np.unique(y_pred)}")
+                        auc = roc_auc_score(y_val, y_pred)
+                        aucs.append(auc)
+                except ImportError:
+                    print("[CPU] ไม่พบ cuML/XGBoost/CatBoost GPU จะใช้ RandomForest (CPU)")
+                    tscv = TimeSeriesSplit(n_splits=5)
+                    for train_idx, val_idx in tscv.split(X_res):
+                        X_train, X_val = X_res[train_idx], X_res[val_idx]
+                        y_train, y_val = y_res[train_idx], y_res[val_idx]
+                        print(f"[DEBUG][RF] train y unique: {np.unique(y_train)}, val y unique: {np.unique(y_val)}")
+                        model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
+                        model.fit(X_train, y_train)
+                        y_pred = model.predict_proba(X_val)[:,1]
+                        print(f"[DEBUG][RF] y_pred (proba) ตัวอย่าง: {y_pred[:5]}")
+                        print(f"[DEBUG][RF] y_pred unique: {np.unique(y_pred)}")
+                        auc = roc_auc_score(y_val, y_pred)
+                        aucs.append(auc)
     mean_auc = np.mean(aucs)
     print(f"[AUC] Cross-validated AUC: {mean_auc:.4f}")
     if mean_auc < 0.65:
@@ -268,7 +295,7 @@ def train_and_validate_model() -> float:
     model_grid = [
         ('RandomForest', RandomForestClassifier, {'n_estimators': [100, 200], 'max_depth': [5, 10]}),
         ('LogisticRegression', LogisticRegression, {'C': [0.1, 1.0], 'max_iter': [200]}),
-        ('XGBoost', XGBClassifier, {'n_estimators': [100], 'max_depth': [5], 'use_label_encoder': [False], 'eval_metric': ['logloss']})
+        ('XGBoost', XGBClassifier, {'n_estimators': [100], 'max_depth': [5], 'use_label_encoder': [False], 'eval_metric': ['logloss'], 'tree_method': ['gpu_hist'], 'predictor': ['gpu_predictor']})
     ]
     best_score = -float('inf')
     best_model = None
@@ -464,3 +491,27 @@ def generate_wfv_report(wfv_results, output_path='output_default/wfv_report.txt'
             f.write(f"AUC: {r['auc']:.4f}\n")
             f.write(f"Confusion Matrix: {r['confusion_matrix']}\n")
     print(f'[WFV] สร้างรายงาน WFV ที่ {output_path}')
+
+def oversample_gpu(X, y, random_state=42):
+    """Random oversample minority class (cuDF/cuPy version)"""
+    import cupy as cp
+    import cudf
+    y_np = y.values.get() if hasattr(y.values, 'get') else y.values
+    X_np = X.values.get() if hasattr(X.values, 'get') else X.values
+    unique, counts = cp.unique(y_np, return_counts=True)
+    max_count = int(cp.max(counts))
+    idxs = []
+    for val in unique:
+        idx = cp.where(y_np == val)[0]
+        n_repeat = max_count - idx.shape[0]
+        if n_repeat > 0:
+            extra_idx = cp.random.choice(idx, n_repeat, replace=True)
+            idx = cp.concatenate([idx, extra_idx])
+        idxs.append(idx)
+    all_idxs = cp.concatenate(idxs)
+    cp.random.shuffle(all_idxs)
+    X_os = cudf.DataFrame(X_np[all_idxs.get()])
+    y_os = cudf.Series(y_np[all_idxs.get()])
+    X_os.columns = X.columns
+    y_os.index = X_os.index
+    return X_os, y_os

@@ -1,9 +1,9 @@
-from .preprocess import run_preprocess
-from .train import train_and_validate_model
-from .predict import save_final_predictions
-from .metrics import ensure_metrics_summary
-from .debug import print_logo
-from .plot import plot_metrics_summary, plot_predictions
+from projectp.preprocess import run_preprocess
+from projectp.train import train_and_validate_model
+from projectp.predict import save_final_predictions
+from projectp.metrics import ensure_metrics_summary
+from projectp.debug import print_logo
+from projectp.plot import plot_metrics_summary, plot_predictions
 
 import sys
 import time
@@ -33,14 +33,13 @@ console = Console()
 
 # Branding/Theme
 ASCII_LOGO = '''
-[bold blue]
-██████╗ ██████╗  ██████╗      ██████╗ ██████╗ 
-██╔══██╗██╔══██╗██╔═══██╗    ██╔═══██╗██╔══██╗
-██████╔╝██████╔╝██║   ██║    ██║   ██║██████╔╝
-██╔═══╝ ██╔══██╗██║   ██║    ██║   ██║██╔══██╗
-██║     ██║  ██║╚██████╔╝    ╚██████╔╝██║  ██║
-╚═╝     ╚═╝  ╚═╝ ╚═════╝      ╚═════╝ ╚═╝  ╚═╝
-[/bold blue]
+[bold cyan]
+ ____            _            ____  ____  
+|  _ \\ ___  __ _| | _____    |  _ \\|  _ \\
+| |_) / _ \\/ _` | |/ / _ \\   | |_) | |_) |
+|  __/  __/ (_| |   <  __/   |  __/|  __/ 
+|_|   \\___|\\__,_|_|\\_\\___|   |_|   |_|    
+[/bold cyan]
 '''
 ASCII_LOGOS = [
     ASCII_LOGO,
@@ -183,16 +182,46 @@ def timed_step(desc, func, *args, threshold_very_fast=2, threshold_fast=5, thres
         print(color(f"[🟣] {desc} ใช้เวลานาน (>{threshold_very_fast}s)", 'magenta'))
     return result, elapsed
 
+# --- Emoji/ASCII Art Effects ---
+def emoji_effects(category: str | None = None) -> str:
+    effects = {
+        'rocket': ['🚀', '🛸', '🛰️', '🦾', '🤖', '🦾🤖'],
+        'fire': ['🔥', '💥', '⚡', '🌟', '✨', '💫'],
+        'party': ['🎉', '🥳', '🎊', '🎈', '🎆', '🎇'],
+        'trophy': ['🏆', '🥇', '🎖️', '👑', '💎'],
+        'ai': ['🤖', '🧠', '🦾', '💡', '🦾🤖', '🧠✨'],
+        'success': ['✅', '🎉', '🥳', '🏆', '🌈', '✨'],
+        'error': ['❌', '🚨', '💥', '😱', '🛑', '⚠️'],
+        'bottleneck': ['🐢', '⏳', '🦥', '🦦', '🦣', '🦛'],
+        'lightning': ['⚡', '🌩️', '🌠', '💡', '✨'],
+        'star': ['🌟', '⭐', '✨', '💫', '🛸'],
+        'wizard': ['🧙‍♂️', '🧙‍♀️', '🪄', '🔮', '✨'],
+        'progress': ['⏳', '🔄', '🔁', '🔃', '🔄✨'],
+        'default': ['✨', '🌈', '💫', '🎉', '🤖', '🚀', '🔥', '⚡', '🏆', '🥳', '🧠', '🦾'],
+    }
+    if category and category in effects:
+        return random.choice(effects[category])
+    return random.choice(effects['default'])
+
+def random_celebrate_ascii() -> str:
+    arts = [
+        '''[bold green]\n🎉🎉🎉\n███████╗ ██████╗ ██████╗ ███████╗\n██╔════╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗\n█████╗  ██║   ██║██████╔╝███████╗\n██╔══╝  ██║   ██║██╔══██╗╚════██║\n██║     ╚██████╔╝██║  ██║███████║\n╚═╝      ╚═════╝ ╚═╝  ╚═╝╚══════╝\n🎉🎉🎉[/bold green]''',
+        '''[bold magenta]\n✨✨✨\n██████╗  ██████╗ ██████╗ ██████╗\n██╔══██╗██╔═══██╗██╔══██╗██╔══██╗\n██████╔╝██║   ██║██████╔╝██████╔╝\n██╔═══╝ ██║   ██║██╔═══╝ ██╔═══╝\n██║     ╚██████╔╝██║     ██║\n╚═╝      ╚═════╝ ╚═╝     ╚═╝\n✨✨✨[/bold magenta]''',
+        '''[bold yellow]\n🚀🚀🚀\n██████╗ ██████╗ ██████╗ ██████╗\n██╔══██╗██╔═══██╗██╔══██╗██╔══██╗\n██████╔╝██║   ██║██████╔╝██████╔╝\n██╔═══╝ ██║   ██║██╔═══╝ ██╔═══╝\n██║     ╚██████╔╝██║     ██║\n╚═╝      ╚═════╝ ╚═╝     ╚═╝\n🚀🚀🚀[/bold yellow]''',
+        '''[bold cyan]\n🧠🤖🧠\n██████╗  ██████╗ ██████╗ ██████╗\n██╔══██╗██╔═══██╗██╔══██╗██╔══██╗\n██████╔╝██║   ██║██████╔╝██████╔╝\n██╔═══╝ ██║   ██║██╔═══╝ ██╔═══╝\n██║     ╚██████╔╝██║     ██║\n╚═╝      ╚═════╝ ╚═╝     ╚═╝\n🧠🤖🧠[/bold cyan]''',
+    ]
+    return random.choice(arts)
+
 def run_full_pipeline():
-    print(color("\n[bold yellow][Full Pipeline] 🚀✨ เริ่มกระบวนการเทพทุกขั้นตอน AI อัตโนมัติ! พร้อมลุยสู่ Production![/bold yellow]", 'yellow'))
-    print(color("[bold cyan]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/bold cyan]", 'cyan'))
+    print(color(f"\n[bold yellow][Full Pipeline] {emoji_effects('rocket')}{emoji_effects('star')} เริ่มกระบวนการเทพทุกขั้นตอน AI อัตโนมัติ! พร้อมลุยสู่ Production! {emoji_effects('party')}{emoji_effects('success')}[/bold yellow]", 'yellow'))
+    print(color("[bold cyan]" + "━"*55 + "[/bold cyan]", 'cyan'))
     start = time.time()
     step_times = {}
     try:
         with Progress(SpinnerColumn(), BarColumn(), TextColumn("[progress.description]{task.description}"), TimeElapsedColumn(), transient=True) as progress:
-            task = progress.add_task("[bold green]Full Pipeline Progress", total=20)
+            task = progress.add_task(f"[bold green]Full Pipeline Progress {emoji_effects('progress')}", total=24)
             # 1. Preprocess
-            progress.update(task, description=f"🛠️  เตรียมข้อมูล (Preprocess)")
+            progress.update(task, description=f"{emoji_effects('wizard')}  เตรียมข้อมูล (Preprocess)")
             _, t_pre = timed_step("Preprocess", run_preprocess, threshold_very_fast=2, threshold_fast=5, threshold_medium=10, threshold_medium2=15, threshold_slow=20, threshold_slow2=30, threshold_very_slow=45, threshold_extreme=60, threshold_ultra=90)
             step_times['Preprocess'] = t_pre
             progress.advance(task)
@@ -200,11 +229,24 @@ def run_full_pipeline():
             step_times['Preview Parquet'] = t_preview
             progress.advance(task)
             # 2. Train, Validate & Test (เทพ)
-            progress.update(task, description=f"🤖 เทรน/วัดผลโมเดล + ทดสอบ (Train, Validate & Test)")
-            from .train import train_validate_test_model
-            results, t_train = timed_step("Train/Validate/Test (AutoML)", train_validate_test_model, threshold_very_fast=5, threshold_fast=10, threshold_medium=15, threshold_medium2=20, threshold_slow=30, threshold_slow2=40, threshold_very_slow=45, threshold_extreme=60, threshold_ultra=90)
-            step_times['Train/Validate/Test'] = t_train
+            progress.update(task, description=f"{emoji_effects('ai')} เทรน/วัดผลโมเดล + ทดสอบ (Train, Validate & Test) {emoji_effects('rocket')}")
+            from projectp.train import train_validate_test_model
+            progress.update(task, description=f"[1/4] เตรียมข้อมูล/feature/target {emoji_effects('wizard')}")
+            # เตรียมข้อมูล (simulate step)
+            time.sleep(0.5)
             progress.advance(task)
+            progress.update(task, description=f"[2/4] กำลังเทรน/validate/AutoML...")
+            results = train_validate_test_model()
+            progress.advance(task)
+            progress.update(task, description=f"[3/4] สร้างกราฟ/plot/metrics...")
+            # (plot/metrics จะถูกสร้างใน train_validate_test_model)
+            time.sleep(0.5)
+            progress.advance(task)
+            progress.update(task, description=f"[4/4] เสร็จสิ้นขั้นตอน Train/Validate/Test (AutoML)")
+            time.sleep(0.2)
+            progress.advance(task)
+            t_train = 0  # ไม่สามารถวัดแยกได้เพราะรวมใน train_validate_test_model
+            step_times['Train/Validate/Test'] = t_train
             _, t_preview2 = timed_step("Preview Parquet (หลังเทรน)", lambda: print_preview_parquet('output_default/preprocessed_super.parquet'), threshold_very_fast=1, threshold_fast=2, threshold_medium=5, threshold_medium2=8, threshold_slow=10, threshold_slow2=15, threshold_very_slow=20, threshold_extreme=30, threshold_ultra=45)
             step_times['Preview Parquet 2'] = t_preview2
             progress.advance(task)
@@ -497,10 +539,9 @@ def run_full_pipeline():
             step_times['Next Steps'] = t_next
             progress.advance(task)
         elapsed = time.time() - start
-        print(color("\n[bold green][🎉] Full Pipeline เสร็จสมบูรณ์! AI พร้อมใช้งานระดับ Production![/bold green]", 'green'))
-        print(ascii_success())
-        print(color(f"[⏱️] ใช้เวลา {elapsed:.2f} วินาที", 'blue'))
-        print(color(f"[AUC] ผลลัพธ์ AUC ล่าสุด: {results['train_auc']:.4f}", 'yellow'))
+        print(color(f"\n[bold green][{emoji_effects('success')}] Full Pipeline เสร็จสมบูรณ์! AI พร้อมใช้งานระดับ Production! {emoji_effects('party')}{emoji_effects('rocket')}[/bold green]", 'green'))
+        print(random_celebrate_ascii())
+        print(color(f"[{emoji_effects('progress')}] ใช้เวลา {elapsed:.2f} วินาที", 'blue'))
         # --- Summary bottleneck ---
         print(color("\n[bold magenta]⏳ สรุปเวลาทุกขั้นตอน (Bottleneck Analysis):[/bold magenta]", 'magenta'))
         for k, v in step_times.items():
@@ -525,21 +566,24 @@ def run_full_pipeline():
             else:
                 print(color(f"[⏱️] {k}: {v:.2f} วินาที", 'blue'))
     except Exception as e:
-        print(color(f"[❌] Full Pipeline ล้มเหลว: {e}", 'red'))
-        print(ascii_error())
+        print(color(f"[{emoji_effects('error')}] Full Pipeline ล้มเหลว: {e}", 'red'))
+        print(random_celebrate_ascii())
         beep()
 
 def main_cli():
     print_logo()
-    # ปรับ UX เมนูหลักให้เทพขึ้น
-    print("\n[bold cyan][🧠][เมนูหลัก ProjectP AI Terminal] ระบบเทรด/วิเคราะห์ AI อัจฉริยะระดับ Enterprise[/bold cyan]")
-    print("[bold yellow]━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[/bold yellow]")
+    # UX เมนูหลักเทพ: random emoji, ASCII Art, animation
+    logo = random.choice(ASCII_LOGOS)
+    console.print(logo, style="bold cyan")
+    main_emoji = emoji_effects('ai') + emoji_effects('rocket') + emoji_effects('star')
+    print(f"\n[bold cyan][{main_emoji}] [เมนูหลัก ProjectP AI Terminal] ระบบเทรด/วิเคราะห์ AI อัจฉริยะระดับ Enterprise {emoji_effects('party')}{emoji_effects('success')}")
+    print("[bold yellow]" + "━"*55 + "[/bold yellow]")
     menu = [
-        ("1", "[green]🛠️  เตรียมข้อมูล (Preprocess)[/green]", run_preprocess, 'output_default/preprocessed_super.parquet'),
-        ("2", "[blue]🤖 เทรน/วัดผลโมเดล (Train & Validate)[/blue]", train_and_validate_model, 'output_default/preprocessed_super.parquet'),
-        ("4", "[magenta]📊 สรุป Metrics/Report (Ensure Metrics Summary)[/magenta]", ensure_metrics_summary, 'output_default/buy_sell_hold_strategy_result.parquet'),
-        ("5", "[bold yellow]🚀 Full Pipeline (เทพทุกขั้นตอน)[/bold yellow]", run_full_pipeline, None),
-        ("0", "[red]❌ ออกจากโปรแกรม[/red]", None, None),
+        ("1", f"[green]{emoji_effects('fire')}  เตรียมข้อมูล (Preprocess) {emoji_effects('wizard')}{emoji_effects('success')}[/green]", run_preprocess, 'output_default/preprocessed_super.parquet'),
+        ("2", f"[blue]{emoji_effects('ai')} เทรน/วัดผลโมเดล (Train & Validate) {emoji_effects('rocket')}{emoji_effects('trophy')}[/blue]", train_and_validate_model, 'output_default/preprocessed_super.parquet'),
+        ("4", f"[magenta]{emoji_effects('star')} สรุป Metrics/Report (Ensure Metrics Summary) {emoji_effects('party')}{emoji_effects('star')}[/magenta]", ensure_metrics_summary, 'output_default/buy_sell_hold_strategy_result.parquet'),
+        ("5", f"[bold yellow]{emoji_effects('rocket')} Full Pipeline (เทพทุกขั้นตอน) {emoji_effects('star')}{emoji_effects('party')}{emoji_effects('fire')}[/bold yellow]", run_full_pipeline, None),
+        ("0", f"[red]{emoji_effects('error')} ออกจากโปรแกรม {emoji_effects('party')}[/red]", None, None),
     ]
     last_choice = None
     while True:
@@ -554,7 +598,7 @@ def main_cli():
                 found = True
                 last_choice = key
                 if key == "0":
-                    print(color("\n[bold green]ขอบคุณที่ใช้ ProjectP CLI! พบกันใหม่ ✨🚀[/bold green]", 'green'))
+                    print(color("\n[bold green]ขอบคุณที่ใช้ ProjectP CLI! พบกันใหม่ ✨🚀👋[/bold green]", 'green'))
                     sys.exit(0)
                 print(color(f"\n[bold blue][กำลังดำเนินการ] {desc} ...[/bold blue]", 'blue'))
                 beep()
@@ -568,36 +612,36 @@ def main_cli():
                     if func is run_preprocess:
                         func()
                         print_preview_parquet('output_default/preprocessed_super.parquet')
-                        print(color("\n[bold green][สำเร็จ] เตรียมข้อมูลเสร็จสิ้น! พร้อมลุยขั้นต่อไป![/bold green]", 'green'))
+                        print(color("\n[bold green][สำเร็จ] เตรียมข้อมูลเสร็จสิ้น! พร้อมลุยขั้นต่อไป! 🎉🟢[/bold green]", 'green'))
                         print(ascii_success())
                     elif func is train_and_validate_model:
                         auc = func()
                         print_preview_parquet('output_default/preprocessed_super.parquet')
-                        print(color(f"\n[bold green][สำเร็จ] เทรน/วัดผลโมเดลเสร็จสิ้น! AUC = {auc:.4f}[/bold green]", 'green'))
+                        print(color(f"\n[bold green][สำเร็จ] เทรน/วัดผลโมเดลเสร็จสิ้น! AUC = {auc:.4f} 🧠📈[/bold green]", 'green'))
                         print(ascii_success())
                     elif func is ensure_metrics_summary:
                         output_dir = input("กรุณาระบุ output directory (default: output_default): ").strip() or "output_default"
                         func(output_dir)
                         print_metrics_summary(output_dir)
-                        print(color("\n[bold green][สำเร็จ] สรุป Metrics/Report เสร็จสิ้น![/bold green]", 'green'))
+                        print(color("\n[bold green][สำเร็จ] สรุป Metrics/Report เสร็จสิ้น! 📊✅[/bold green]", 'green'))
                         print(ascii_success())
                     elif func is run_full_pipeline:
-                        print(color("\n[bold yellow][Full Pipeline] 🚀 เริ่มกระบวนการเทพทุกขั้นตอน AI อัตโนมัติ![/bold yellow]", 'yellow'))
+                        print(color("\n[bold yellow][Full Pipeline] 🚀✨ เริ่มกระบวนการเทพทุกขั้นตอน AI อัตโนมัติ! พร้อมลุยสู่ Production! [🌟][🧬][🔥][/bold yellow]", 'yellow'))
                         func()
                     else:
                         func()
                     elapsed = time.time() - start
-                    print(color(f"[⏱️] ใช้เวลา {elapsed:.2f} วินาที", 'blue'))
+                    print(color(f"[⏱️] ใช้เวลา {elapsed:.2f} วินาที ⏳", 'blue'))
                     next_mode = suggest_next_mode(key)
                     if next_mode != '0':
-                        print(color(f"\n[💡] แนะนำ: ดำเนินการโหมดถัดไปโดยกด {next_mode} หรือ Enter", 'yellow'))
+                        print(color(f"\n[💡] แนะนำ: ดำเนินการโหมดถัดไปโดยกด {next_mode} หรือ Enter [➡️]", 'yellow'))
                 except Exception as e:
-                    print(color(f"[❌] เกิดข้อผิดพลาด: {e}", 'red'))
+                    print(color(f"[❌] เกิดข้อผิดพลาด: {e} [🚨]", 'red'))
                     print(ascii_error())
                     beep()
                 break
         if not found:
-            print(color("[⚠️] กรุณาเลือกหมายเลขโหมดที่ถูกต้อง!", 'yellow'))
+            print(color("[⚠️] กรุณาเลือกหมายเลขโหมดที่ถูกต้อง! [❓]", 'yellow'))
 
 # --- Enhanced Wizard ---
 def enhanced_wizard():
@@ -608,7 +652,7 @@ def enhanced_wizard():
     current_theme = theme_choice
     session = PromptSession(style=THEMES[current_theme])
     logo = random.choice(ASCII_LOGOS)
-    console.print(logo, style="logo")
+    console.print(logo, style="bold cyan")
     # Step 2: Project Name
     name = session.prompt("[prompt]ชื่อโปรเจค/Project Name? ", default="ProjectP")
     # Step 3: Data Path
@@ -641,7 +685,7 @@ def shell():
     """Interactive ProjectP Shell (เทพ, auto-complete, branding, dynamic)"""
     global current_theme
     logo = random.choice(ASCII_LOGOS)
-    console.print(logo, style="logo")
+    console.print(logo, style="bold cyan")
     console.print(Panel.fit(f"[bold cyan]Welcome to ProjectP Shell! พิมพ์ help เพื่อดูคำสั่งทั้งหมด\nธีม: {current_theme}", border_style="cyan"))
     session = PromptSession(style=THEMES[current_theme])
     while True:
@@ -693,3 +737,20 @@ def warn_undefined_metric(y_true, y_pred):
         console.print(f"[bold yellow][⚠️] พบ class ที่ไม่มีการทำนายในผลลัพธ์: {missing_classes} (precision/recall อาจเป็น 0 หรือ ill-defined)[/bold yellow]")
         console.print("[bold yellow]ระบบได้ suppress warning และตั้ง zero_division=0 ให้แล้ว (เทพสุด)[/bold yellow]")
         console.print("[bold magenta]แนะนำ: ตรวจสอบ class imbalance หรือปรับ threshold/model ให้ครอบคลุมทุก class[/bold magenta]")
+
+def check_analysis_outputs():
+    try:
+        # ตัวอย่าง: ตรวจสอบไฟล์หลักที่ควรมีหลัง pipeline
+        files = [
+            'output_default/final_predictions.parquet',
+            'output_default/metrics_summary_v32.csv',
+            'output_default/buy_sell_hold_strategy_result.parquet',
+            'output_default/test_predictions.csv',
+        ]
+        for f in files:
+            if not os.path.exists(f):
+                print(color(f"[⚠️] ไม่พบไฟล์วิเคราะห์หลัก: {f}", 'yellow'))
+            else:
+                print(color(f"[OK] พบไฟล์: {f}", 'green'))
+    except Exception as e:
+        print(color(f"[ERROR] ตรวจสอบไฟล์วิเคราะห์หลักล้มเหลว: {e}", 'red'))

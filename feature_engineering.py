@@ -75,3 +75,80 @@ def remove_multicollinearity():
     upper = corr.where(np.triu(np.ones(corr.shape), k=1).astype(bool))
     to_drop = [column for column in upper.columns if any(upper[column] > 0.95)]
     print(f'[Multicollinearity] Features to drop (corr > 0.95): {to_drop}')
+
+def run_gpu_feature_engineering():
+    """เทพ: Feature Engineering ด้วย cuDF/cuPy (GPU) และ fallback เป็น pandas/numpy"""
+    try:
+        import cudf
+        import cupy as cp
+        from ProjectP import ensure_super_features_file
+        fe_super_path = ensure_super_features_file()
+        df = cudf.read_parquet(fe_super_path)
+        # ตัวอย่าง rolling mean, std, lag, diff, RSI
+        df['ma_5'] = df['Close'].rolling(window=5).mean()
+        df['std_5'] = df['Close'].rolling(window=5).std()
+        df['lag_1'] = df['Close'].shift(1)
+        df['diff_1'] = df['Close'].diff(1)
+        # RSI ด้วย cuPy
+        def rsi_gpu(series, window=14):
+            delta = series.diff()
+            up = cp.where(delta > 0, delta, 0)
+            down = cp.where(delta < 0, -delta, 0)
+            roll_up = cp.convolve(up, cp.ones(window)/window, mode='valid')
+            roll_down = cp.convolve(down, cp.ones(window)/window, mode='valid')
+            rs = roll_up / (roll_down + 1e-9)
+            rsi = 100 - (100 / (1 + rs))
+            return cp.concatenate([cp.full(window-1, cp.nan), rsi])
+        df['rsi_14'] = rsi_gpu(df['Close'].values)
+        df.to_parquet('output_default/gpu_features.parquet')
+        print('[GPU Feature Engineering] สร้างฟีเจอร์เทพด้วย cuDF/cuPy และบันทึกที่ output_default/gpu_features.parquet')
+    except ImportError:
+        print('[GPU Feature Engineering] ไม่พบ cuDF/cuPy ใช้ pandas/numpy แทน')
+        import pandas as pd
+        import numpy as np
+        from ProjectP import ensure_super_features_file
+        fe_super_path = ensure_super_features_file()
+        df = pd.read_parquet(fe_super_path)
+        df['ma_5'] = df['Close'].rolling(window=5).mean()
+        df['std_5'] = df['Close'].rolling(window=5).std()
+        df['lag_1'] = df['Close'].shift(1)
+        df['diff_1'] = df['Close'].diff(1)
+        def rsi_cpu(series, window=14):
+            delta = series.diff()
+            up = np.where(delta > 0, delta, 0)
+            down = np.where(delta < 0, -delta, 0)
+            roll_up = np.convolve(up, np.ones(window)/window, mode='valid')
+            roll_down = np.convolve(down, np.ones(window)/window, mode='valid')
+            rs = roll_up / (roll_down + 1e-9)
+            rsi = 100 - (100 / (1 + rs))
+            return np.concatenate([np.full(window-1, np.nan), rsi])
+        df['rsi_14'] = rsi_cpu(df['Close'])
+        df.to_parquet('output_default/cpu_features.parquet')
+        print('[CPU Feature Engineering] สร้างฟีเจอร์เทพด้วย pandas/numpy และบันทึกที่ output_default/cpu_features.parquet')
+
+def run_gpu_visualization():
+    """เทพ: Visualization ข้อมูลขนาดใหญ่ด้วย Datashader (GPU) และ fallback เป็น matplotlib"""
+    try:
+        import datashader as ds
+        import datashader.transfer_functions as tf
+        import cudf
+        from ProjectP import ensure_super_features_file
+        fe_super_path = ensure_super_features_file()
+        df = cudf.read_parquet(fe_super_path)
+        canvas = ds.Canvas(plot_width=800, plot_height=400)
+        agg = canvas.line(df, 'timestamp', 'Close')
+        img = tf.shade(agg)
+        img.to_pil().save('output_default/gpu_lineplot.png')
+        print('[GPU Visualization] บันทึกกราฟ Datashader GPU ที่ output_default/gpu_lineplot.png')
+    except ImportError:
+        print('[GPU Visualization] ไม่พบ datashader/cudf ใช้ matplotlib แทน')
+        import pandas as pd
+        import matplotlib.pyplot as plt
+        from ProjectP import ensure_super_features_file
+        fe_super_path = ensure_super_features_file()
+        df = pd.read_parquet(fe_super_path)
+        plt.figure(figsize=(10,4))
+        plt.plot(df['timestamp'], df['Close'])
+        plt.title('Close Price')
+        plt.savefig('output_default/cpu_lineplot.png')
+        print('[CPU Visualization] บันทึกกราฟ matplotlib ที่ output_default/cpu_lineplot.png')
